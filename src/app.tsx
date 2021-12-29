@@ -1,8 +1,16 @@
 import React from 'react';
+
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh';
+
 import { MicroApp, IRoute, request as requestClient, RequestConfig } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { BASE_URL } from './constants';
 import proLayout from './proLayout';
+
+dayjs.locale('zh');
+dayjs.extend(relativeTime);
 
 const qiankunApps: Array<QiankunApp> = [];
 

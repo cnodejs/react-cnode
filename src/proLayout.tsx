@@ -18,13 +18,19 @@ const layoutConfig = (): BasicLayoutProps => {
     // common
     navTheme: 'light',
     layout: 'top',
-    headerHeight: 64,
+    headerHeight: 80,
     fixedHeader: false,
-    logo: <Brand title={config.title} description={config.description} />,
+    logo: (
+      <Brand
+        logo={config.logo}
+        title={config.title}
+        description={config.description}
+      />
+    ),
     contentWidth: 'Fluid',
-    waterMarkProps: {
-      content: config.title,
-    },
+    // waterMarkProps: {
+    //   content: config.title,
+    // },
 
     // heander
     menuDataRender: (menuData: MenuDataItem[]) => {
@@ -56,7 +62,7 @@ const layoutConfig = (): BasicLayoutProps => {
     footerRender: () => (
       <DefaultFooter
         links={false}
-        copyright={`@${new Date().getFullYear()} - cnodejs.org`}
+        copyright={`${new Date().getFullYear()} - CNodejs.org`}
       />
     ),
   };

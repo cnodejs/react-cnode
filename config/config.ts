@@ -14,6 +14,10 @@ export default defineConfig({
 
   antd: {},
 
+  theme: {
+    '@primary-color': '#1DA57A',
+  },
+
   dva: {
     immer: true,
   },
