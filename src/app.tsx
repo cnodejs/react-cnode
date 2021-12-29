@@ -1,11 +1,10 @@
 import React from 'react';
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { MicroApp, IRoute, request as requestClient, RequestConfig } from 'umi';
+import { PageContainer } from '@ant-design/pro-layout';
+import { BASE_URL } from './constants';
+import proLayout from './proLayout';
 
-import {
-  BasicLayoutProps,
-  Settings as LayoutSettings,
-} from '@ant-design/pro-layout';
+const qiankunApps: Array<QiankunApp> = [];
 
 export async function getInitialState() {
   return {
@@ -13,33 +12,71 @@ export async function getInitialState() {
   };
 }
 
-export const layout = ({
-  initialState,
-}: {
-  initialState: { settings?: LayoutSettings };
-}): BasicLayoutProps => {
-  return {
-    // rightContentRender: () => <RightContent />,
-    // footerRender: () => <Footer />,
-    onPageChange: () => {
-      // const { currentUser } = initialState;
-      // const { location } = history;
-      // 如果没有登录，重定向到 login
-      // if (!currentUser && location.pathname !== '/user/login') {
-      //   history.push('/user/login');
-      // }
-    },
-    // menuHeaderRender: undefined,
-    rightContentRender: () => {
-      return (
-        <div>
-          <Avatar shape="square" size="small" icon={<UserOutlined />} />
-        </div>
-      );
-    },
+export const patchRoutes = ({ routes }: { routes: Array<IRoute> }) => {
+  const root = routes[0];
 
-    layout: 'top',
-    navTheme: 'light',
-    headerHeight: 64,
-  };
+  qiankunApps.forEach((item) => {
+    const { name, path, locale, remark } = item;
+    if (!root.routes) {
+      return;
+    }
+
+    root.routes.push({
+      name,
+      path,
+      locale: locale || '',
+      exact: true,
+      hideInMenu: false,
+      hideInNav: false,
+      component: (props: any) => {
+        return (
+          <PageContainer content={remark}>
+            <MicroApp name={name} data={{ props }} />
+          </PageContainer>
+        );
+      },
+    });
+  });
 };
+
+export const layout = proLayout;
+
+export const qiankun = async () => {
+  try {
+    // const params = { method: 'get', json: {} };
+    // const { apps } = await requestClient<{
+    //   apps: QiankunApp[];
+    // }>(`${BASE_URL}/getFeConfig`, params);
+
+    // console.log('===getFeConfig', apps);
+
+    // apps
+    //   .filter(({ type }) => type === 'App')
+    //   .sort((appA, appB) => appA.order - appB.order)
+    //   .forEach((app) => qiankunApps.push(app));
+
+    return {
+      apps: [],
+    };
+  } catch (error) {
+    return {};
+  }
+};
+
+export const request: RequestConfig = {
+  timeout: 1000,
+  errorConfig: {},
+  middlewares: [],
+  requestInterceptors: [],
+  responseInterceptors: [],
+};
+
+interface QiankunApp {
+  name: string;
+  type: string;
+  path: string;
+  entry: string;
+  order: number;
+  remark?: string;
+  locale?: string;
+}
