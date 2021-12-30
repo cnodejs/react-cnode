@@ -34,7 +34,7 @@ const layoutConfig = ({
     // common
     navTheme: 'light',
     layout: 'top',
-    headerHeight: 80,
+    headerHeight: 64,
     fixedHeader: false,
     contentWidth: 'Fluid',
 
