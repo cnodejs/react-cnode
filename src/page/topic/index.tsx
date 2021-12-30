@@ -43,22 +43,20 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
   }
 
   return (
-    <div>
-      <PageHeader title={data?.title}>
-        <MdEditor
-          className={styles.editor}
-          readOnly
-          view={{
-            menu: false,
-            md: false,
-            html: true,
-          }}
-          value={data.content}
-          renderHTML={(text) => mdParser.render(text)}
-          // onChange={handleEditorChange}
-        />
-      </PageHeader>
-    </div>
+    <PageHeader title={data?.title} onBack={() => window.history.back()}>
+      <MdEditor
+        className={styles.editor}
+        readOnly
+        view={{
+          menu: false,
+          md: false,
+          html: true,
+        }}
+        value={data.content}
+        renderHTML={(text) => mdParser.render(text)}
+        // onChange={handleEditorChange}
+      />
+    </PageHeader>
   );
 };
 
