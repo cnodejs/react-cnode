@@ -16,7 +16,8 @@ const qiankunApps: Array<QiankunApp> = [];
 
 export async function getInitialState(): Promise<InitialState> {
   return {
-    currentUser: 'Suyi',
+    avatar_url: 'https://avatars.githubusercontent.com/u/958063?v=4&s=120',
+    loginname: 'thonatos',
   };
 }
 
@@ -90,5 +91,6 @@ interface QiankunApp {
 }
 
 export interface InitialState {
-  currentUser: string;
+  loginname: string;
+  avatar_url: string;
 }

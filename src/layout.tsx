@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'umi';
 import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 
 import {
   DefaultFooter,
@@ -14,10 +13,13 @@ import { InitialState } from './app';
 import config from '../config/basic';
 import Brand from './component/Brand';
 
-const RightContent: React.FC<any> = () => {
+const RightContent: React.FC<{
+  data: InitialState;
+}> = (props) => {
+  const { avatar_url } = props.data;
   return (
     <div className="cnode-header-right">
-      <Avatar shape="square" size="small" icon={<UserOutlined />} />
+      <Avatar shape="square" size="small" src={avatar_url} />
     </div>
   );
 };
@@ -77,7 +79,8 @@ const layoutConfig = ({
 
     // right
     rightContentRender: () => {
-      return <RightContent />;
+      const { avatar_url } = initialState;
+      return <RightContent data={initialState} />;
     },
 
     // footer
