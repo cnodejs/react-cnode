@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { BASE_URL } from '@/constants';
 
-export const queryTopics = async (params: QueryParams) => {
+export const queryTopicList = async (params: QueryListParams) => {
   const { tab = 'ask', page = 1, limit = 10, mdrender = false } = params;
   const options: any = {
     method: 'GET',
@@ -16,9 +16,28 @@ export const queryTopics = async (params: QueryParams) => {
   return request(`${BASE_URL}/api/v1/topics`, options);
 };
 
-interface QueryParams {
+export const queryTopicDetail = async (params: QueryDetailParams) => {
+  const { id, mdrender, accesstoken } = params;
+  const options: any = {
+    method: 'GET',
+    params: {
+      mdrender,
+      accesstoken,
+    },
+  };
+
+  return request(`${BASE_URL}/api/v1/topic/${id}`, options);
+};
+
+interface QueryListParams {
   tab?: string;
   page?: number;
   limit?: number;
   mdrender?: boolean;
+}
+
+interface QueryDetailParams {
+  id: string;
+  mdrender?: boolean;
+  accesstoken?: boolean;
 }

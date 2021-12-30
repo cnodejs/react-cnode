@@ -6,15 +6,15 @@ import 'dayjs/locale/zh';
 
 import { MicroApp, IRoute, request as requestClient, RequestConfig } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { BASE_URL } from './constants';
-import proLayout from './proLayout';
+// import { BASE_URL } from './constants';
+import proLayout from './layout';
 
 dayjs.locale('zh');
 dayjs.extend(relativeTime);
 
 const qiankunApps: Array<QiankunApp> = [];
 
-export async function getInitialState() {
+export async function getInitialState(): Promise<InitialState> {
   return {
     currentUser: 'Suyi',
   };
@@ -87,4 +87,8 @@ interface QiankunApp {
   order: number;
   remark?: string;
   locale?: string;
+}
+
+export interface InitialState {
+  currentUser: string;
 }

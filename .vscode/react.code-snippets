@@ -1,0 +1,18 @@
+{
+	"React-TypeScript Function Component": {
+		"prefix": "rfct",
+		"body": [
+			"import React from 'react';",
+			"",
+			"const ${0:${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}}: React.FC<Props> = (props) => {",
+			"  return null;",
+			"};",
+			"",
+			"export default ${0:${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}};",
+			"",
+			"interface Props {",
+			"};"
+		],
+		"description": "React-TypeScript Function Component"
+	}
+}

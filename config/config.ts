@@ -22,9 +22,7 @@ export default defineConfig({
     immer: true,
   },
 
-  layout: {
-    name: config.title,
-  },
+  layout: {},
 
   qiankun: {
     master: {

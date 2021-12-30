@@ -1,42 +1,62 @@
 import React from 'react';
 import { Link } from 'umi';
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+
 import {
   DefaultFooter,
   BasicLayoutProps,
   MenuDataItem,
 } from '@ant-design/pro-layout';
 
-import Brand from '@/component/Brand';
+import { InitialState } from './app';
+
 import config from '../config/basic';
+import Brand from './component/Brand';
 
-const RightRender = () => (
-  <div style={{ marginRight: '24px' }}>{/* <SelectLang /> */}</div>
-);
+const RightContent: React.FC<any> = () => {
+  return (
+    <div className="cnode-header-right">
+      <Avatar shape="square" size="small" icon={<UserOutlined />} />
+    </div>
+  );
+};
 
-const layoutConfig = (): BasicLayoutProps => {
+const layoutConfig = ({
+  initialState,
+}: {
+  initialState: InitialState;
+}): BasicLayoutProps => {
+  const { title, logo, description } = config;
   return {
     // common
     navTheme: 'light',
     layout: 'top',
     headerHeight: 80,
     fixedHeader: false,
-    logo: (
-      <Brand
-        logo={config.logo}
-        title={config.title}
-        description={config.description}
-      />
-    ),
     contentWidth: 'Fluid',
+
+    logo,
+    title,
+
     // waterMarkProps: {
     //   content: config.title,
     // },
 
+    menuHeaderRender: () => {
+      return <Brand title={title} description={description} logo={logo} />;
+    },
+
     // heander
     menuDataRender: (menuData: MenuDataItem[]) => {
-      const menus: MenuDataItem[] = [];
+      let menus: MenuDataItem[] = [];
       const apps: MenuDataItem[] = [];
       menuData.forEach((item) => {
+        if (item.path === '/' && item.exact !== true) {
+          menus = menus.concat(item.children);
+          return;
+        }
+
         if (!item.microApp) {
           menus.push(item);
           return;
@@ -56,7 +76,9 @@ const layoutConfig = (): BasicLayoutProps => {
       item.path && <Link to={item.path}>{item.name}</Link>,
 
     // right
-    rightContentRender: RightRender,
+    rightContentRender: () => {
+      return <RightContent />;
+    },
 
     // footer
     footerRender: () => (
