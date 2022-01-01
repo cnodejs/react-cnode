@@ -11,6 +11,7 @@ const Markdown: React.FC<Props> = (props) => {
   const { value, type, onChange } = props;
 
   let view;
+  let classname = styles.markdown;
 
   if (type === 'render') {
     view = {
@@ -18,6 +19,8 @@ const Markdown: React.FC<Props> = (props) => {
       md: false,
       html: true,
     };
+
+    classname += ` ${styles.markdown_render}`;
   }
 
   if (type === 'editor') {
@@ -26,11 +29,13 @@ const Markdown: React.FC<Props> = (props) => {
       md: true,
       html: false,
     };
+
+    classname += ` ${styles.markdown_editor}`;
   }
 
   return (
     <MdEditor
-      className={styles.editor}
+      className={classname}
       readOnly={type === 'render'}
       view={view}
       value={value}

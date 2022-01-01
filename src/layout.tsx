@@ -52,7 +52,7 @@ const layoutConfig = ({
     navTheme: 'light',
     layout: 'top',
     headerHeight: 64,
-    fixedHeader: false,
+    fixedHeader: true,
     contentWidth: 'Fluid',
 
     logo,

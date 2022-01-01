@@ -3,6 +3,8 @@ import ProCard from '@ant-design/pro-card';
 
 import { IRoute, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
+import { Affix, Button } from 'antd';
+
 import UserInfo from './component/UserInfo';
 
 const getCurrentRoute = (route: IRoute, path: string): IRoute | undefined => {
@@ -76,6 +78,22 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
           <UserInfo />
         </ProCard>
       </ProCard>
+      <Affix
+        offsetBottom={200}
+        style={{
+          position: 'fixed',
+          bottom: '50px',
+          right: '24px',
+        }}
+      >
+        <Button
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
+          回到顶部
+        </Button>
+      </Affix>
     </PageContainer>
   );
 };

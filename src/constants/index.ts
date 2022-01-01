@@ -17,6 +17,10 @@ export const TABS_MAP = {
     name: '招聘',
     color: '#5BD8A6',
   },
+  dev: {
+    name: '客户端测试',
+    color: '#5BD8A6',
+  },
 };
 
 export type TabType = keyof typeof TABS_MAP;
