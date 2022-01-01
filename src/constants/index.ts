@@ -20,3 +20,8 @@ export const TABS_MAP = {
 };
 
 export type TabType = keyof typeof TABS_MAP;
+
+export enum FORM_TYPE {
+  LOGIN = 'login',
+  REGISTER = 'register',
+}

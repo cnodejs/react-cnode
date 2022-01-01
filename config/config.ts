@@ -1,4 +1,3 @@
-import config from './basic';
 import routes from './routes';
 
 import { defineConfig } from 'umi';

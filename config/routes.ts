@@ -2,6 +2,12 @@ import { IRoute } from 'umi';
 
 const routes: IRoute[] = [
   {
+    path: '/auth',
+    exact: true,
+    layout: false,
+    component: '@/page/auth',
+  },
+  {
     path: '/',
     exact: false,
     component: '@/layout/index',
@@ -13,6 +19,7 @@ const routes: IRoute[] = [
         name: '主页',
         component: '@/page/home',
       },
+
       {
         path: '/api',
         exact: true,
@@ -27,6 +34,7 @@ const routes: IRoute[] = [
       },
     ],
   },
+
   { component: '@/page/404' },
 ];
 

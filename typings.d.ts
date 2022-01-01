@@ -10,5 +10,26 @@ declare module '*.svg' {
 }
 
 interface Window {
-  globalData: {};
+  initialState: InitialState;
+}
+
+interface InitialState {
+  user?: UserModel;
+  token?: string;
+}
+
+interface UserModel {
+  id: string;
+  loginname: string;
+  avatar_url: string;
+}
+
+interface QiankunApp {
+  name: string;
+  type: string;
+  path: string;
+  entry: string;
+  order: number;
+  remark?: string;
+  locale?: string;
 }

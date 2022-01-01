@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'umi';
-import { Avatar } from 'antd';
+import { Link, history } from 'umi';
+import { Avatar, Tooltip } from 'antd';
 
 import {
   DefaultFooter,
@@ -8,18 +8,24 @@ import {
   MenuDataItem,
 } from '@ant-design/pro-layout';
 
-import { InitialState } from './app';
-
 import config from '../config/basic';
 import Brand from './component/Brand';
 
 const RightContent: React.FC<{
-  data: InitialState;
+  user?: UserModel;
 }> = (props) => {
-  const { avatar_url } = props.data;
+  const user = props?.user;
+
+  if (!user) {
+    return null;
+  }
+
+  const { loginname, avatar_url } = user;
   return (
     <div className="cnode-header-right">
-      <Avatar shape="square" size="small" src={avatar_url} />
+      <Tooltip title={loginname}>
+        <Avatar shape="square" size="small" src={avatar_url} />
+      </Tooltip>
     </div>
   );
 };
@@ -79,8 +85,7 @@ const layoutConfig = ({
 
     // right
     rightContentRender: () => {
-      const { avatar_url } = initialState;
-      return <RightContent data={initialState} />;
+      return <RightContent user={initialState.user} />;
     },
 
     // footer
@@ -90,6 +95,17 @@ const layoutConfig = ({
         copyright={`${new Date().getFullYear()} - CNodejs.org`}
       />
     ),
+
+    onPageChange: () => {
+      const { user, token } = initialState || {};
+
+      // 非登录页面
+      if (history.location.pathname !== '/auth') {
+        if (!user || !token) {
+          history.push('/auth');
+        }
+      }
+    },
   };
 };
 

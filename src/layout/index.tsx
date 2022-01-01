@@ -1,8 +1,9 @@
 import React from 'react';
 import ProCard from '@ant-design/pro-card';
 
-import { IRoute } from 'umi';
+import { IRoute, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
+import UserInfo from './component/UserInfo';
 
 const getCurrentRoute = (route: IRoute, path: string): IRoute | undefined => {
   let target;
@@ -34,28 +35,31 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
   };
 
   if (location.pathname.startsWith('/topic/')) {
-    return (
-      <ProCard gutter={16} bordered={false}>
-        <ProCard bordered={false}>{props.children}</ProCard>
-        <ProCard
-          title=""
-          layout="center"
-          bordered={false}
-          colSpan={{
-            xs: '50px',
-            sm: '100px',
-            md: '200px',
-            lg: '300px',
-            xl: '400px',
-          }}
-        ></ProCard>
-      </ProCard>
-    );
+    const topicBreadcrumbName = location.pathname.split('/').pop();
+
+    headerConfig = {
+      title: null,
+      breadcrumb: {
+        itemRender: (route: { path: string; breadcrumbName: string }) => {
+          return <Link to={route.path}>{route.breadcrumbName}</Link>;
+        },
+        routes: [
+          {
+            path: '/',
+            breadcrumbName: '主页',
+          },
+          {
+            path: location.pathname,
+            breadcrumbName: topicBreadcrumbName,
+          },
+        ],
+      },
+    };
   }
 
   return (
     <PageContainer header={headerConfig}>
-      <ProCard gutter={16} bordered={false}>
+      <ProCard gutter={16} bordered={false} ghost>
         <ProCard bordered={false}>{props.children}</ProCard>
         <ProCard
           title=""
@@ -68,7 +72,9 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
             lg: '300px',
             xl: '400px',
           }}
-        ></ProCard>
+        >
+          <UserInfo />
+        </ProCard>
       </ProCard>
     </PageContainer>
   );

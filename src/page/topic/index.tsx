@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
 
 import { useParams } from 'umi';
@@ -62,14 +62,15 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
     return (
       <div className={styles.comment}>
         {replies.map((reply: Reply, index: number) => {
-          const { author, content, create_at } = reply;
+          const { id, author, content, create_at } = reply;
           return (
-            <>
+            <Fragment key={id}>
               {index === replies.length - 1 ? null : (
-                <Divider type="horizontal" />
+                <Divider type="horizontal" key={`divider-${id}`} />
               )}
 
               <Comment
+                key={id}
                 actions={[
                   <LikeFilled />,
                   <EditFilled />,
@@ -96,7 +97,7 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
                   ></div>
                 }
               ></Comment>
-            </>
+            </Fragment>
           );
         })}
       </div>
