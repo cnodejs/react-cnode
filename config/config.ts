@@ -5,7 +5,7 @@ import { defineConfig } from 'umi';
 export default defineConfig({
   singular: true,
   fastRefresh: {},
-  mfsu: {},
+  // mfsu: {},
 
   nodeModulesTransform: {
     type: 'none',

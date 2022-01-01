@@ -62,9 +62,9 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
       <ProCard gutter={16} bordered={false} ghost>
         <ProCard bordered={false}>{props.children}</ProCard>
         <ProCard
-          title=""
           layout="center"
           bordered={false}
+          ghost
           colSpan={{
             xs: '50px',
             sm: '100px',

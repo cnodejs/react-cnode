@@ -37,3 +37,19 @@ export const queryTopicDetail = async (params: {
 
   return request(`${BASE_URL}/api/v1/topic/${id}`, options);
 };
+
+export const postTopicReply = async (
+  topicId: string,
+  data: {
+    content: string;
+    accesstoken: string;
+    reply_id?: string;
+  },
+) => {
+  const options: any = {
+    method: 'POST',
+    data,
+  };
+
+  return request(`${BASE_URL}/api/v1/topic/${topicId}/replies`, options);
+};

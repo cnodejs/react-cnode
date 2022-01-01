@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, history } from 'umi';
-import { Avatar, Tooltip } from 'antd';
+import { Avatar, Tooltip, Button } from 'antd';
 
 import {
   DefaultFooter,
@@ -17,7 +17,18 @@ const RightContent: React.FC<{
   const user = props?.user;
 
   if (!user) {
-    return null;
+    return (
+      <div className="cnode-header-right">
+        <Button
+          type="link"
+          onClick={() => {
+            history.push('/auth');
+          }}
+        >
+          登录
+        </Button>
+      </div>
+    );
   }
 
   const { loginname, avatar_url } = user;
@@ -36,8 +47,8 @@ const layoutConfig = ({
   initialState: InitialState;
 }): BasicLayoutProps => {
   const { title, logo, description } = config;
+
   return {
-    // common
     navTheme: 'light',
     layout: 'top',
     headerHeight: 64,
@@ -47,15 +58,10 @@ const layoutConfig = ({
     logo,
     title,
 
-    // waterMarkProps: {
-    //   content: config.title,
-    // },
-
     menuHeaderRender: () => {
       return <Brand title={title} description={description} logo={logo} />;
     },
 
-    // heander
     menuDataRender: (menuData: MenuDataItem[]) => {
       let menus: MenuDataItem[] = [];
       const apps: MenuDataItem[] = [];
@@ -83,29 +89,16 @@ const layoutConfig = ({
     menuItemRender: (item) =>
       item.path && <Link to={item.path}>{item.name}</Link>,
 
-    // right
     rightContentRender: () => {
       return <RightContent user={initialState.user} />;
     },
 
-    // footer
     footerRender: () => (
       <DefaultFooter
         links={false}
         copyright={`${new Date().getFullYear()} - CNodejs.org`}
       />
     ),
-
-    onPageChange: () => {
-      const { user, token } = initialState || {};
-
-      // 非登录页面
-      if (history.location.pathname !== '/auth') {
-        if (!user || !token) {
-          history.push('/auth');
-        }
-      }
-    },
   };
 };
 

@@ -1,36 +1,33 @@
-import React, { Fragment } from 'react';
-import dayjs from 'dayjs';
+import React, { useState } from 'react';
 
-import { useParams } from 'umi';
+import { useParams, useModel } from 'umi';
 import { useRequest } from 'ahooks';
-import { PageHeader, Comment, Avatar, Divider, Space } from 'antd';
-import {
-  LikeFilled,
-  EditFilled,
-  DeleteFilled,
-  CommentOutlined,
-} from '@ant-design/icons';
+import { PageHeader, Divider } from 'antd';
 import * as API from '@/service/topic';
 
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
-import 'react-markdown-editor-lite/lib/index.css';
-
 import SubTitle from './component/SubTitle';
+import Markdown from '@/component/Markdown';
+import CommentForm from './component/CommentForm';
+import CommentList from './component/CommentList';
 
 import * as styles from './index.less';
-
-const mdParser = new MarkdownIt();
 
 const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const params: Record<string, any> = useParams();
   const topicId = params?.id;
 
+  const { user } = useModel('user');
+
+  const { initialState } = useModel('@@initialState');
+  const token = initialState?.token;
+
+  const [reply, setReply] = useState<ReplyModel | null>();
+
   if (!topicId) {
     return null;
   }
 
-  const { data, loading } = useRequest(
+  const { data, refresh } = useRequest(
     async () => {
       if (!topicId) {
         return;
@@ -52,7 +49,46 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
     return null;
   }
 
-  const renderComment = () => {
+  const onComment = async (data: { content: string; reply_id?: string }) => {
+    console.log(topicId, token, data);
+
+    if (!token) {
+      return;
+    }
+
+    if (!data?.content) {
+      return;
+    }
+
+    await API.postTopicReply(topicId, {
+      ...data,
+      accesstoken: token,
+    });
+  };
+
+  const onReply = (record: ReplyModel) => {
+    if (reply) {
+      setReply(null);
+      return;
+    }
+
+    setReply(record);
+  };
+
+  const renderTopicDetail = () => {
+    if (!data) {
+      return null;
+    }
+
+    return (
+      <div className={styles.editor_detail}>
+        <Divider type="horizontal" />
+        <Markdown type="render" value={data.content} />
+      </div>
+    );
+  };
+
+  const renderCommentList = () => {
     if (!data) {
       return null;
     }
@@ -60,79 +96,65 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
     const { replies } = data;
 
     return (
-      <div className={styles.comment}>
-        {replies.map((reply: Reply, index: number) => {
-          const { id, author, content, create_at } = reply;
-          return (
-            <Fragment key={id}>
-              {index === replies.length - 1 ? null : (
-                <Divider type="horizontal" key={`divider-${id}`} />
-              )}
-
-              <Comment
-                key={id}
-                actions={[
-                  <LikeFilled />,
-                  <EditFilled />,
-                  <DeleteFilled />,
-                  <CommentOutlined />,
-                ]}
-                author={
-                  <Space size={8}>
-                    <span>{author.loginname}</span>
-                    <span>
-                      {dayjs(create_at).format('YYYY-MM-DD hh:mm:ss')}
-                    </span>
-                  </Space>
-                }
-                avatar={
-                  <Avatar src={author.avatar_url} alt={author.loginname} />
-                }
-                content={
-                  <div
-                    className={styles.comment_content}
-                    dangerouslySetInnerHTML={{
-                      __html: mdParser.render(content),
-                    }}
-                  ></div>
-                }
-              ></Comment>
-            </Fragment>
-          );
-        })}
-      </div>
+      <CommentList list={replies} onReply={onReply} replyRender={renderReply} />
     );
   };
 
-  const renderDetail = () => {
-    if (!data) {
+  const renderCommentForm = () => {
+    if (!user) {
       return null;
     }
 
+    const handleSubmit = async (content: string) => {
+      await onComment({
+        content,
+      });
+      refresh();
+    };
+
     return (
-      <div className={styles.detail}>
-        <Divider type="horizontal"></Divider>
-        <MdEditor
-          className={styles.editor}
-          readOnly
-          view={{
-            menu: false,
-            md: false,
-            html: true,
-          }}
-          value={data.content}
-          renderHTML={(text) => mdParser.render(text)}
-          // onChange={handleEditorChange}
-        />
-      </div>
+      <>
+        <Divider type="horizontal" key={'divider'} />
+        <CommentForm user={user} onSubmit={handleSubmit} />
+      </>
+    );
+  };
+
+  const renderReply = (id: string) => {
+    if (!user || id !== reply?.id) {
+      return null;
+    }
+
+    const handleSubmit = async (content: string) => {
+      if (!reply) {
+        return;
+      }
+
+      await onComment({
+        content,
+        reply_id: reply?.id,
+      });
+
+      setReply(null);
+      refresh();
+    };
+
+    return (
+      <CommentForm
+        user={user}
+        data={reply ? `@${reply.author.loginname}` : ''}
+        onSubmit={handleSubmit}
+        onSubmitText="提交回复"
+      />
     );
   };
 
   return (
     <PageHeader title={data?.title} onBack={() => window.history.back()}>
       <SubTitle {...data} />
-      {renderDetail()}
-      {renderComment()}
+      {renderTopicDetail()}
+      {renderCommentList()}
+      {renderCommentForm()}
     </PageHeader>
   );
 };
@@ -140,18 +162,3 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
 export default TopicDetail;
 
 interface Props {}
-
-interface Reply {
-  id: string;
-  content: string;
-
-  author: {
-    loginname: string;
-    avatar_url: string;
-  };
-
-  ups: string[];
-  create_at: Date;
-  reply_id?: string;
-  is_uped: boolean;
-}

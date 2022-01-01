@@ -33,3 +33,18 @@ interface QiankunApp {
   remark?: string;
   locale?: string;
 }
+
+interface ReplyModel {
+  id: string;
+  content: string;
+
+  author: {
+    loginname: string;
+    avatar_url: string;
+  };
+
+  ups: string[];
+  create_at: Date;
+  reply_id?: string;
+  is_uped: boolean;
+}
