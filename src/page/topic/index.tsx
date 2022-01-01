@@ -1,164 +1,223 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import dayjs from 'dayjs';
 
-import { useParams, useModel } from 'umi';
-import { useRequest } from 'ahooks';
-import { PageHeader, Divider } from 'antd';
+import { useHistory } from 'umi';
+import { Avatar, Tag, Space, Divider, Button } from 'antd';
+import { useRequest, useReactive } from 'ahooks';
+import { ProListMetas } from '@ant-design/pro-list';
+import ProList from '@ant-design/pro-list';
+import { ReloadOutlined } from '@ant-design/icons';
+
+import { TABS_MAP } from '@/constants';
+import type { TabType } from '@/constants';
+
 import * as API from '@/service/topic';
-
-import SubTitle from './component/SubTitle';
-import Markdown from '@/component/Markdown';
-import CommentForm from './component/CommentForm';
-import CommentList from './component/CommentList';
-
 import * as styles from './index.less';
 
-const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
-  const params: Record<string, any> = useParams();
-  const topicId = params?.id;
+interface Props {}
 
-  const { user } = useModel('user');
+const TopicList: React.FC<Props> = (props) => {
+  const history = useHistory();
 
-  const { initialState } = useModel('@@initialState');
-  const token = initialState?.token;
+  const state = useReactive({
+    tab: 'share',
+    page: 1,
+    limit: 25,
+    data: [],
+    hasNext: true,
+  });
 
-  const [reply, setReply] = useState<ReplyModel | null>();
+  const { tab, page, limit, data, hasNext } = state;
 
-  if (!topicId) {
-    return null;
-  }
-
-  const { data, refresh } = useRequest(
+  const { loading, refresh } = useRequest(
     async () => {
-      if (!topicId) {
-        return;
+      const res = await API.queryTopicList({
+        tab,
+        page,
+        limit,
+      });
+
+      if (res.data.lenght < limit) {
+        state.hasNext = false;
       }
 
-      const res = await API.queryTopicDetail({
-        id: topicId,
-        mdrender: false,
-      });
+      state.data = state.data.concat(res.data);
 
       return res.data;
     },
     {
-      refreshDeps: [topicId],
+      refreshDeps: [tab, page, limit],
+      debounceWait: 300,
     },
   );
 
-  if (!data) {
-    return null;
-  }
-
-  const onComment = async (data: { content: string; reply_id?: string }) => {
-    console.log(topicId, token, data);
-
-    if (!token) {
-      return;
-    }
-
-    if (!data?.content) {
-      return;
-    }
-
-    await API.postTopicReply(topicId, {
-      ...data,
-      accesstoken: token,
-    });
+  const onRefresh = () => {
+    state.page = 1;
+    state.data = [];
+    state.hasNext = true;
+    refresh();
   };
 
-  const onReply = (record: ReplyModel) => {
-    if (reply) {
-      setReply(null);
+  const onReachEnd = () => {
+    if (!hasNext) {
       return;
     }
 
-    setReply(record);
+    state.page = state.page + 1;
   };
 
-  const renderTopicDetail = () => {
-    if (!data) {
-      return null;
+  useEffect(() => {
+    if (loading) {
+      return;
     }
 
+    const onScroll = () => {
+      const scrollHeight = document.body.scrollHeight;
+      const offsetHeight = document.body.offsetHeight;
+      const pageYOffset = window.pageYOffset;
+
+      console.debug('===pageYOffset', pageYOffset);
+      console.debug('===offsetHeight', offsetHeight);
+      console.debug('===scrollHeight', scrollHeight);
+
+      // if(pageYOffset) {
+      //   console.log('===onReachStart', hasNext, loading);
+      //   onReachStart();
+      //   return;
+      // }
+
+      if (pageYOffset + offsetHeight === scrollHeight) {
+        console.log('===onReachEnd', hasNext, loading);
+        onReachEnd();
+      }
+    };
+
+    document.addEventListener('scroll', onScroll, false);
+
+    return () => {
+      document.removeEventListener('scroll', onScroll, false);
+    };
+  }, [loading]);
+
+  const metas: ProListMetas = {
+    avatar: {
+      dataIndex: 'author.avatar_url',
+      render: (_, entity) => {
+        const { tab: _tab, author, reply_count, visit_count } = entity;
+
+        const category = TABS_MAP[_tab as keyof typeof TABS_MAP] || {
+          color: '#777',
+          name: '未知',
+        };
+
+        return (
+          <Space>
+            <Avatar size="small" src={author.avatar_url} />
+            <div
+              style={{
+                width: '96px',
+                padding: '0 8px',
+              }}
+            >
+              <span
+                style={{
+                  color: '#9e78c0',
+                }}
+              >
+                {reply_count}
+              </span>
+              /<span>{visit_count}</span>
+            </div>
+            <Tag color={category.color}>{category.name}</Tag>
+          </Space>
+        );
+      },
+    },
+    title: {
+      dataIndex: 'title',
+      valueType: 'text',
+    },
+    actions: {
+      render: (_, entity) => {
+        const { last_reply_at } = entity;
+        return dayjs(last_reply_at).fromNow();
+      },
+    },
+  };
+
+  const renderFooter = () => {
     return (
-      <div className={styles.editor_detail}>
-        <Divider type="horizontal" />
-        <Markdown type="render" value={data.content} />
+      <div className={styles.footer}>
+        {' '}
+        {hasNext ? '加载更多...' : '我是有底线的！'}
       </div>
     );
   };
 
-  const renderCommentList = () => {
-    if (!data) {
-      return null;
+  const onChangeTabKey = (key: React.Key | undefined) => {
+    if (!key) {
+      return;
     }
 
-    const { replies } = data;
-
-    return (
-      <CommentList list={replies} onReply={onReply} replyRender={renderReply} />
-    );
-  };
-
-  const renderCommentForm = () => {
-    if (!user) {
-      return null;
-    }
-
-    const handleSubmit = async (content: string) => {
-      await onComment({
-        content,
-      });
-      refresh();
-    };
-
-    return (
-      <>
-        <Divider type="horizontal" key={'divider'} />
-        <CommentForm user={user} onSubmit={handleSubmit} />
-      </>
-    );
-  };
-
-  const renderReply = (id: string) => {
-    if (!user || id !== reply?.id) {
-      return null;
-    }
-
-    const handleSubmit = async (content: string) => {
-      if (!reply) {
-        return;
-      }
-
-      await onComment({
-        content,
-        reply_id: reply?.id,
-      });
-
-      setReply(null);
-      refresh();
-    };
-
-    return (
-      <CommentForm
-        user={user}
-        data={reply ? `@${reply.author.loginname}` : ''}
-        onSubmit={handleSubmit}
-        onSubmitText="提交回复"
-      />
-    );
+    state.tab = key as TabType;
+    state.page = 1;
+    state.data = [];
+    state.hasNext = true;
+    refresh();
   };
 
   return (
-    <PageHeader title={data?.title} onBack={() => window.history.back()}>
-      <SubTitle {...data} />
-      {renderTopicDetail()}
-      {renderCommentList()}
-      {renderCommentForm()}
-    </PageHeader>
+    <div>
+      <ProList
+        rowKey="id"
+        showActions="always"
+        dataSource={data}
+        loading={loading}
+        metas={metas}
+        className={styles.list}
+        toolbar={{
+          menu: {
+            type: 'tab',
+            activeKey: tab,
+            items: Object.entries(TABS_MAP).map(([tab, currentTab]) => {
+              return {
+                key: tab,
+                label: <span>{currentTab.name}</span>,
+              };
+            }),
+            onChange: onChangeTabKey,
+          },
+          actions: [
+            <Button key="refresh" type="primary" onClick={onRefresh}>
+              <ReloadOutlined />
+              刷新
+            </Button>,
+          ],
+        }}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              console.log('onClick', record);
+              history.push(`/topic/${record.id}`);
+            },
+          };
+        }}
+        // request={async (params) => {
+        //   state.page = params.current || page;
+        //   state.limit = params.pageSize || limit;
+        //   return Promise.resolve({});
+        // }}
+        // pagination={{
+        //   total: 100,
+        //   current: page,
+        //   pageSize: limit,
+        //   responsive: true,
+        // }}
+      />
+      <Divider type="horizontal" />
+      {renderFooter()}
+    </div>
   );
 };
 
-export default TopicDetail;
-
-interface Props {}
+export default TopicList;

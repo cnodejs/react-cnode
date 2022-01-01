@@ -6,7 +6,7 @@ import { FORM_TYPE } from '@/constants';
 import config from '@/config/';
 import * as API from '@/service/user';
 
-import styles from './index.less';
+import * as styles from './index.less';
 
 const AUTH_TYPE_MAP = {
   login: {

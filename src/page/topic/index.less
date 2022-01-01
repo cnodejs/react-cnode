@@ -1,19 +1,17 @@
-.editor_detail {
-}
-
-.editor_comment {
-  min-height: 200px;
-}
-
-.comment {
-  img {
-    max-width: 100%;
-    overflow: hidden;
+.list {
+  :global {
+    .ant-card {
+      padding: 0;
+      > .ant-card-body {
+        padding: 0;
+      }
+    }
   }
 }
 
-.comment_content {
-  * {
-    overflow: hidden;
-  }
+.footer {
+  display: flex;
+  justify-content: center;
+
+  color: lightgray;
 }

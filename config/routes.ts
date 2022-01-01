@@ -17,7 +17,7 @@ const routes: IRoute[] = [
         exact: true,
         icon: 'home',
         name: '主页',
-        component: '@/page/home',
+        component: '@/page/topic',
       },
 
       {
@@ -30,7 +30,7 @@ const routes: IRoute[] = [
       {
         path: '/topic/:id',
         exact: true,
-        component: '@/page/topic',
+        component: '@/page/topic/detail',
       },
     ],
   },
