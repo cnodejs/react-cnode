@@ -171,7 +171,7 @@ const TopicList: React.FC<Props> = (props) => {
       <ProList
         rowKey="id"
         showActions="always"
-        dataSource={data}
+        dataSource={data.filter((item: any) => item?.author?.loginname)}
         loading={loading}
         metas={metas}
         className={styles.list}
