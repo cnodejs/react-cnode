@@ -71,7 +71,7 @@ export const patchRoutes = ({ routes }: { routes: Array<IRoute> }) => {
 };
 
 export const request: RequestConfig = {
-  timeout: 1000,
+  timeout: 6 * 1000,
   errorConfig: {},
   middlewares: [],
   requestInterceptors: [],

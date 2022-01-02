@@ -99,6 +99,8 @@ const layoutConfig = ({
         copyright={`${new Date().getFullYear()} - CNodejs.org`}
       />
     ),
+
+    onPageChange: () => {},
   };
 };
 

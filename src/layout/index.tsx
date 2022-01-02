@@ -4,6 +4,7 @@ import ProCard from '@ant-design/pro-card';
 import { IRoute, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Affix, Button } from 'antd';
+import { UpCircleOutlined } from '@ant-design/icons';
 
 import UserInfo from './component/UserInfo';
 
@@ -36,7 +37,9 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
     title: currentRoute?.title || currentRoute?.name,
   };
 
-  if (location.pathname.startsWith('/topic/')) {
+  const topicDetailRegx = /\/topic\/([a-f0-9]){24}/g;
+
+  if (location.pathname.match(topicDetailRegx)) {
     const topicBreadcrumbName = location.pathname.split('/').pop();
 
     headerConfig = {
@@ -79,10 +82,9 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
         </ProCard>
       </ProCard>
       <Affix
-        offsetBottom={200}
+        offsetBottom={50}
         style={{
           position: 'fixed',
-          bottom: '50px',
           right: '24px',
         }}
       >
@@ -91,6 +93,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
             window.scrollTo(0, 0);
           }}
         >
+          <UpCircleOutlined />
           回到顶部
         </Button>
       </Affix>
