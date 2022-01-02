@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
 
-import { useHistory } from 'umi';
+import { useHistory, useAccess } from 'umi';
 import { Avatar, Tag, Space, Divider, Button } from 'antd';
 import { useRequest, useReactive } from 'ahooks';
 import { ProListMetas } from '@ant-design/pro-list';
 import ProList from '@ant-design/pro-list';
-import { ReloadOutlined } from '@ant-design/icons';
+import { ReloadOutlined, EditOutlined } from '@ant-design/icons';
 
 import { TABS_MAP } from '@/constants';
 import type { TabType } from '@/constants';
@@ -17,6 +17,7 @@ import * as styles from './index.less';
 interface Props {}
 
 const TopicList: React.FC<Props> = (props) => {
+  const access = useAccess();
   const history = useHistory();
 
   const state = useReactive({
@@ -76,18 +77,12 @@ const TopicList: React.FC<Props> = (props) => {
       const offsetHeight = document.body.offsetHeight;
       const pageYOffset = window.pageYOffset;
 
-      console.debug('===pageYOffset', pageYOffset);
-      console.debug('===offsetHeight', offsetHeight);
-      console.debug('===scrollHeight', scrollHeight);
-
-      // if(pageYOffset) {
-      //   console.log('===onReachStart', hasNext, loading);
-      //   onReachStart();
-      //   return;
-      // }
+      // console.debug('===pageYOffset', pageYOffset);
+      // console.debug('===offsetHeight', offsetHeight);
+      // console.debug('===scrollHeight', scrollHeight);
 
       if (pageYOffset + offsetHeight === scrollHeight) {
-        console.log('===onReachEnd', hasNext, loading);
+        // console.log('===onReachEnd', hasNext, loading);
         onReachEnd();
       }
     };
@@ -166,6 +161,26 @@ const TopicList: React.FC<Props> = (props) => {
     refresh();
   };
 
+  const onCreate = () => {
+    history.push('/topic/create');
+  };
+
+  const actions = [
+    <Button key="refresh" type="default" size="small" onClick={onRefresh}>
+      <ReloadOutlined />
+      刷新
+    </Button>,
+  ];
+
+  if (access.canPostTopic) {
+    actions.push(
+      <Button key="create" type="primary" size="small" onClick={onCreate}>
+        <EditOutlined />
+        新建
+      </Button>,
+    );
+  }
+
   return (
     <div>
       <ProList
@@ -187,12 +202,7 @@ const TopicList: React.FC<Props> = (props) => {
             }),
             onChange: onChangeTabKey,
           },
-          actions: [
-            <Button key="refresh" type="primary" onClick={onRefresh}>
-              <ReloadOutlined />
-              刷新
-            </Button>,
-          ],
+          actions,
         }}
         onRow={(record) => {
           return {
@@ -202,17 +212,6 @@ const TopicList: React.FC<Props> = (props) => {
             },
           };
         }}
-        // request={async (params) => {
-        //   state.page = params.current || page;
-        //   state.limit = params.pageSize || limit;
-        //   return Promise.resolve({});
-        // }}
-        // pagination={{
-        //   total: 100,
-        //   current: page,
-        //   pageSize: limit,
-        //   responsive: true,
-        // }}
       />
       <Divider type="horizontal" />
       {renderFooter()}

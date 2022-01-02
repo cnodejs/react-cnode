@@ -28,6 +28,13 @@ const routes: IRoute[] = [
         component: '@/page/api',
       },
       {
+        path: '/topic/create',
+        exact: true,
+        title: '新建话题',
+        component: '@/page/topic/create',
+        access: 'canPostTopic',
+      },
+      {
         path: '/topic/:id',
         exact: true,
         component: '@/page/topic/detail',

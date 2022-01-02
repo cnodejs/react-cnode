@@ -8,7 +8,7 @@ import * as styles from './index.less';
 const mdParser = new MarkdownIt();
 
 const Markdown: React.FC<Props> = (props) => {
-  const { value, type, onChange } = props;
+  const { value = '', type, onChange, customClassName = '' } = props;
 
   let view;
   let classname = styles.markdown;
@@ -33,6 +33,10 @@ const Markdown: React.FC<Props> = (props) => {
     classname += ` ${styles.markdown_editor}`;
   }
 
+  if (customClassName) {
+    classname += ` ${customClassName}`;
+  }
+
   return (
     <MdEditor
       className={classname}
@@ -51,6 +55,7 @@ export default Markdown;
 
 interface Props {
   type: 'editor' | 'render';
-  value: string;
+  value?: string;
+  customClassName?: '';
   onChange?: (text: string) => void;
 }
