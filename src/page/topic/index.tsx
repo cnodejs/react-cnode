@@ -37,7 +37,7 @@ const TopicList: React.FC<Props> = (props) => {
         limit,
       });
 
-      if (res.data.lenght < limit) {
+      if (res.data.length < limit) {
         state.hasNext = false;
       }
 
