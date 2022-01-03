@@ -19,7 +19,13 @@ const routes: IRoute[] = [
         name: '主页',
         component: '@/page/topic',
       },
-
+      {
+        path: '/about',
+        exact: true,
+        icon: 'info',
+        name: '关于',
+        component: '@/page/about',
+      },
       {
         path: '/api',
         exact: true,
