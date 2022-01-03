@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Home: React.FC<Props> = () => {
+const HomePage: React.FC<Props> = () => {
   return null;
 };
 
-export default Home;
+export default HomePage;
 
 interface Props {}

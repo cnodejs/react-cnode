@@ -3,10 +3,11 @@ import ProCard from '@ant-design/pro-card';
 
 import { IRoute, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Affix, Button } from 'antd';
+import { Affix, Button, Space } from 'antd';
 import { UpCircleOutlined } from '@ant-design/icons';
 
 import UserInfo from './component/UserInfo';
+import AppQrcode from './component/AppQrcode';
 
 const getCurrentRoute = (route: IRoute, path: string): IRoute | undefined => {
   let target;
@@ -71,16 +72,17 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
           bordered={false}
           ghost
           colSpan={{
-            xs: '50px',
-            sm: '100px',
-            md: '200px',
-            lg: '300px',
-            xl: '400px',
+            sm: '200px',
+            md: '400px',
           }}
         >
-          <UserInfo />
+          <Space size={16} direction="vertical" style={{ width: '100%' }}>
+            <UserInfo />
+            <AppQrcode />
+          </Space>
         </ProCard>
       </ProCard>
+
       <Affix
         offsetBottom={50}
         style={{

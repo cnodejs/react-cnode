@@ -42,7 +42,7 @@ const UserInfo: React.FC<Props> = (props) => {
   };
 
   return (
-    <ProCard title="个人信息">
+    <ProCard title="个人信息" headerBordered>
       <Space size={8}>
         <Avatar shape="square" size="small" src={avatar_url} />
         <span>{loginname}</span>
