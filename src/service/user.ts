@@ -17,6 +17,10 @@ export const getUserInfo = async (params: {
   loginname: string;
 }): Promise<{
   data: {
+    loginname: string;
+    create_at: string;
+    avatar_url: string;
+    githubUsername: string;
     score: number;
     recent_topics: any[];
     recent_replies: any[];

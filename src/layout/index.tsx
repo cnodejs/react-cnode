@@ -63,6 +63,29 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
     };
   }
 
+  if (location.pathname.match(/\/user\/(.*)/g)) {
+    const loginname = location.pathname.split('/').pop();
+
+    headerConfig = {
+      title: null,
+      breadcrumb: {
+        itemRender: (route: { path: string; breadcrumbName: string }) => {
+          return <Link to={route.path}>{route.breadcrumbName}</Link>;
+        },
+        routes: [
+          {
+            path: '/',
+            breadcrumbName: '主页',
+          },
+          {
+            path: location.pathname,
+            breadcrumbName: loginname,
+          },
+        ],
+      },
+    };
+  }
+
   return (
     <PageContainer header={headerConfig}>
       <ProCard gutter={16} bordered={false} ghost>
