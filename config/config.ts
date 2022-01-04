@@ -41,6 +41,10 @@ export default defineConfig({
     },
   ],
 
+  analytics: {
+    ga: 'UA-41753901-5',
+  },
+
   // umi.js
   singular: true,
   fastRefresh: {},
