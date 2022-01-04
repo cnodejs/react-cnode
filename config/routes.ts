@@ -45,6 +45,11 @@ const routes: IRoute[] = [
         exact: true,
         component: '@/page/topic/detail',
       },
+      {
+        path: '/user/:loginname',
+        exact: true,
+        component: '@/page/user/',
+      },
     ],
   },
 
