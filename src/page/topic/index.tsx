@@ -98,9 +98,9 @@ const TopicList: React.FC<Props> = (props) => {
     avatar: {
       dataIndex: 'author.avatar_url',
       render: (_, entity) => {
-        const { tab: _tab, author, reply_count, visit_count } = entity;
+        const { tab: _tab, author, reply_count, visit_count, top } = entity;
 
-        const category = TABS_MAP[_tab as keyof typeof TABS_MAP] || {
+        const category = TABS_MAP[_tab as TabType] || {
           color: '#777',
           name: '未知',
         };
@@ -123,7 +123,11 @@ const TopicList: React.FC<Props> = (props) => {
               </span>
               /<span>{visit_count}</span>
             </div>
-            <Tag color={category.color}>{category.name}</Tag>
+            {top ? (
+              <Tag color="#5BD8A6">置顶</Tag>
+            ) : (
+              <Tag color={category.color}>{category.name}</Tag>
+            )}
           </Space>
         );
       },
