@@ -10,7 +10,7 @@ import type { TabType } from '@/constants';
 
 import * as API from '@/service/topic';
 import * as styles from './index.less';
-import TopicItemList from '@/page/topic/component/TopicItemList';
+import TopicItemList from '@/component/TopicItemList';
 
 interface Props {}
 
