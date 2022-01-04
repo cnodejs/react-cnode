@@ -11,7 +11,7 @@ export const TABS_MAP = {
   },
   ask: {
     name: '问答',
-    color: '#5BD8A6',
+    color: '#999',
   },
   job: {
     name: '招聘',
