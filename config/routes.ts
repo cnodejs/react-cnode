@@ -27,6 +27,13 @@ const routes: IRoute[] = [
         component: '@/page/about',
       },
       {
+        path: '/links',
+        exact: true,
+        icon: 'link',
+        name: '友情链接',
+        component: '@/page/links',
+      },
+      {
         path: '/api',
         exact: true,
         icon: 'api',
