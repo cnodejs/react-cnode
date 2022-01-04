@@ -1,4 +1,4 @@
-import TopicItemList from '@/page/topic/component/TopicItemList';
+import TopicItemList from '@/component/TopicItemList';
 import { getUserInfo } from '@/service/user';
 import { GithubOutlined } from '@ant-design/icons';
 import ProCard from '@ant-design/pro-card';
