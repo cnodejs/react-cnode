@@ -39,32 +39,13 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
   };
 
   const topicDetailRegx = /\/topic\/([a-f0-9]){24}/g;
+  const userDetailRegx = /\/user\/(.*)/g;
 
-  if (location.pathname.match(topicDetailRegx)) {
-    const topicBreadcrumbName = location.pathname.split('/').pop();
-
-    headerConfig = {
-      title: null,
-      breadcrumb: {
-        itemRender: (route: { path: string; breadcrumbName: string }) => {
-          return <Link to={route.path}>{route.breadcrumbName}</Link>;
-        },
-        routes: [
-          {
-            path: '/',
-            breadcrumbName: '主页',
-          },
-          {
-            path: location.pathname,
-            breadcrumbName: topicBreadcrumbName,
-          },
-        ],
-      },
-    };
-  }
-
-  if (location.pathname.match(/\/user\/(.*)/g)) {
-    const loginname = location.pathname.split('/').pop();
+  if (
+    location.pathname.match(topicDetailRegx) ||
+    location.pathname.match(userDetailRegx)
+  ) {
+    const currentBreadcrumbName = location.pathname.split('/').pop();
 
     headerConfig = {
       title: null,
@@ -79,7 +60,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
           },
           {
             path: location.pathname,
-            breadcrumbName: loginname,
+            breadcrumbName: currentBreadcrumbName,
           },
         ],
       },
