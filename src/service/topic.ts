@@ -18,7 +18,9 @@ export const queryTopicList = async (params: {
     },
   };
 
-  return request(`${BASE_URL}/api/v1/topics`, options);
+  const res = await request(`${BASE_URL}/api/v1/topics`, options);
+  res.data = res.data.filter((item: any) => item?.author?.loginname);
+  return res;
 };
 
 export const postTopic = async (data: {
