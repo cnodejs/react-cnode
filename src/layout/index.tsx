@@ -77,7 +77,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
           ghost
           colSpan={{
             sm: '200px',
-            md: '400px',
+            md: '320px',
           }}
         >
           <Space size={16} direction="vertical" style={{ width: '100%' }}>
