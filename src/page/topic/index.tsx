@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import dayjs from 'dayjs';
 
 import { useHistory, useAccess } from 'umi';
-import { Avatar, Tag, Space, Divider, Button } from 'antd';
+import { Divider, Button } from 'antd';
 import { useRequest, useReactive } from 'ahooks';
-import { ProListMetas } from '@ant-design/pro-list';
-import ProList from '@ant-design/pro-list';
 import { ReloadOutlined, EditOutlined } from '@ant-design/icons';
 
 import { TABS_MAP } from '@/constants';
@@ -13,6 +10,7 @@ import type { TabType } from '@/constants';
 
 import * as API from '@/service/topic';
 import * as styles from './index.less';
+import TopicItemList from '@/page/topic/component/TopicItemList';
 
 interface Props {}
 
@@ -94,52 +92,6 @@ const TopicList: React.FC<Props> = (props) => {
     };
   }, [loading]);
 
-  const metas: ProListMetas = {
-    avatar: {
-      dataIndex: 'author.avatar_url',
-      render: (_, entity) => {
-        const { tab: _tab, author, reply_count, visit_count } = entity;
-
-        const category = TABS_MAP[_tab as keyof typeof TABS_MAP] || {
-          color: '#777',
-          name: '未知',
-        };
-
-        return (
-          <Space>
-            <Avatar size="small" src={author.avatar_url} />
-            <div
-              style={{
-                width: '96px',
-                padding: '0 8px',
-              }}
-            >
-              <span
-                style={{
-                  color: '#9e78c0',
-                }}
-              >
-                {reply_count}
-              </span>
-              /<span>{visit_count}</span>
-            </div>
-            <Tag color={category.color}>{category.name}</Tag>
-          </Space>
-        );
-      },
-    },
-    title: {
-      dataIndex: 'title',
-      valueType: 'text',
-    },
-    actions: {
-      render: (_, entity) => {
-        const { last_reply_at } = entity;
-        return dayjs(last_reply_at).fromNow();
-      },
-    },
-  };
-
   const renderFooter = () => {
     return (
       <div className={styles.footer}>
@@ -183,13 +135,9 @@ const TopicList: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <ProList
-        rowKey="id"
-        showActions="always"
-        dataSource={data.filter((item: any) => item?.author?.loginname)}
+      <TopicItemList
         loading={loading}
-        metas={metas}
-        className={styles.list}
+        dataSource={data.filter((item: any) => item?.author?.loginname)}
         toolbar={{
           menu: {
             type: 'tab',
@@ -203,14 +151,6 @@ const TopicList: React.FC<Props> = (props) => {
             onChange: onChangeTabKey,
           },
           actions,
-        }}
-        onRow={(record) => {
-          return {
-            onClick: () => {
-              console.log('onClick', record);
-              history.push(`/topic/${record.id}`);
-            },
-          };
         }}
       />
       <Divider type="horizontal" />

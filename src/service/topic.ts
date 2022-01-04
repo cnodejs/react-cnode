@@ -18,6 +18,22 @@ export const queryTopicList = async (params: {
     },
   };
 
+  const res = await request(`${BASE_URL}/api/v1/topics`, options);
+  res.data = res.data.filter((item: any) => item?.author?.loginname);
+  return res;
+};
+
+export const postTopic = async (data: {
+  title: string;
+  tab: string;
+  content: string;
+  accesstoken: string;
+}) => {
+  const options: any = {
+    method: 'POST',
+    data,
+  };
+
   return request(`${BASE_URL}/api/v1/topics`, options);
 };
 

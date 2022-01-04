@@ -34,7 +34,7 @@ const CommentList: React.FC<Props> = (props) => {
   const { list, onReply, replyRender } = props;
   const tree = unflatten(list);
 
-  const ComentDetail: React.FC<{
+  const CommentDetail: React.FC<{
     data: Node;
   }> = ({ data }) => {
     const { id, author, content, create_at, children } = data;
@@ -69,7 +69,7 @@ const CommentList: React.FC<Props> = (props) => {
           {replyRender(id)}
 
           {children?.map((item) => (
-            <ComentDetail key={`detail-${id}-${item.id}`} data={item} />
+            <CommentDetail key={`detail-${id}-${item.id}`} data={item} />
           ))}
         </Comment>
       </Fragment>
@@ -79,7 +79,7 @@ const CommentList: React.FC<Props> = (props) => {
   return (
     <div className={styles.list}>
       {tree.map((item) => (
-        <ComentDetail key={`list-${item.id}`} data={item} />
+        <CommentDetail key={`list-${item.id}`} data={item} />
       ))}
     </div>
   );
