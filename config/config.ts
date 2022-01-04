@@ -47,8 +47,37 @@ export default defineConfig({
 
   // umi.js
   singular: true,
+
   fastRefresh: {},
+
   mfsu: {},
+
+  externals: {
+    react: 'window.React',
+    'react-dom': 'ReactDOM',
+    antd: 'antd',
+    dayjs: 'dayjs',
+  },
+
+  styles:
+    process.env.NODE_ENV === 'development'
+      ? ['//unpkg.com/antd@4.x/dist/antd.css']
+      : ['//unpkg.com/antd@4.x/dist/antd.min.css'],
+
+  scripts:
+    process.env.NODE_ENV === 'development'
+      ? [
+          '//unpkg.com/react@17.x/umd/react.development.js',
+          '//unpkg.com/react-dom@17.x/umd/react-dom.development.js',
+          '//unpkg.com/antd@4.x/dist/antd.js',
+          '//unpkg.com/dayjs@1.x/dayjs.min.js',
+        ]
+      : [
+          '//unpkg.com/react@17.x/umd/react.production.min.js',
+          '//unpkg.com/react-dom@17.x/umd/react-dom.production.min.js',
+          '//unpkg.com/antd@4.x/dist/antd.min.js',
+          '//unpkg.com/dayjs@1.x/dayjs.min.js',
+        ],
 
   nodeModulesTransform: {
     type: 'none',
