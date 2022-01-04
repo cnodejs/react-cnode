@@ -23,7 +23,7 @@ export const TABS_MAP = {
   },
   dev: {
     name: '客户端测试',
-    color: '#5BD8A6',
+    color: 'green',
   },
 };
 
