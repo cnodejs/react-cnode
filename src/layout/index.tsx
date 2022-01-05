@@ -3,7 +3,7 @@ import ProCard from '@ant-design/pro-card';
 
 import { IRoute, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Affix, Button, Space } from 'antd';
+import { Affix, Button, Space, BackTop } from 'antd';
 import { UpCircleOutlined } from '@ant-design/icons';
 
 import UserInfo from './component/UserInfo';
@@ -102,14 +102,15 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
           right: '24px',
         }}
       >
-        <Button
+        {/* <Button
           onClick={() => {
             window.scrollTo(0, 0);
           }}
         >
           <UpCircleOutlined />
           回到顶部
-        </Button>
+        </Button> */}
+        <BackTop />
       </Affix>
     </PageContainer>
   );
