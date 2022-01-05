@@ -30,6 +30,6 @@ jobs:
       run: npm run ci
 
     - name: Semantic Release
-      run: npm run build && npm run semantic-release
+      run: npm run build && npm run build:zip && npm run semantic-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
