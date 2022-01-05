@@ -20,10 +20,18 @@ const routes: IRoute[] = [
         component: '@/page/topic',
       },
       {
+        path: '/my/messages',
+        exact: true,
+        icon: 'message',
+        name: '未读消息',
+        access: 'canReadMessage',
+        component: '@/page/message',
+      },
+      {
         path: '/about',
         exact: true,
         icon: 'info',
-        name: '关于',
+        name: '关于我们',
         component: '@/page/about',
       },
       {

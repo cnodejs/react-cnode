@@ -31,7 +31,7 @@ const unflatten = (array: Node[], parent?: Node, tree?: Node[]) => {
 };
 
 const CommentList: React.FC<Props> = (props) => {
-  const { list, onReply, replyRender } = props;
+  const { list, onLike, onReply, replyRender } = props;
   const tree = unflatten(list);
 
   const CommentDetail: React.FC<{
@@ -46,12 +46,16 @@ const CommentList: React.FC<Props> = (props) => {
         <Comment
           key={id}
           actions={[
-            <LikeFilled />,
+            <LikeFilled
+              onClick={() => {
+                onLike && onLike(data);
+              }}
+            />,
             <EditFilled />,
             <DeleteFilled />,
             <CommentOutlined
               onClick={() => {
-                onReply(data);
+                onReply && onReply(data);
               }}
             />,
           ]}
@@ -90,7 +94,11 @@ export default CommentList;
 interface Props {
   list: ReplyModel[];
 
-  onReply: (record: Node) => void;
+  onLike?: (record: Node) => void;
+  onEdit?: (record: Node) => void;
+  onReply?: (record: Node) => void;
+  onDelete?: (record: Node) => void;
+
   replyRender: (id: string) => React.ReactNode;
 }
 

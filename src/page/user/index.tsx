@@ -1,12 +1,14 @@
-import TopicItemList from '@/component/TopicItemList';
-import { getUserInfo } from '@/service/user';
-import { GithubOutlined } from '@ant-design/icons';
-import ProCard from '@ant-design/pro-card';
-import { useRequest } from 'ahooks';
-import { Avatar, Divider, Space, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useParams } from 'umi';
+import { useRequest } from 'ahooks';
+import { GithubOutlined } from '@ant-design/icons';
+import { Avatar, Divider, Space, Typography } from 'antd';
+import ProCard from '@ant-design/pro-card';
+
+import TopicList from '@/component/TopicList';
+import { getUserInfo } from '@/service/user';
+
 import * as styles from './index.less';
 
 const { Text, Paragraph } = Typography;
@@ -78,13 +80,13 @@ const UserDetail: React.FC<Props> = (props) => {
       <Divider />
 
       <ProCard title="最近创建的话题">
-        <TopicItemList dataSource={recent_topics} />
+        <TopicList dataSource={recent_topics} />
       </ProCard>
 
       <Divider />
 
       <ProCard title="最近参与的话题">
-        <TopicItemList dataSource={recent_replies} />
+        <TopicList dataSource={recent_replies} />
       </ProCard>
     </>
   );

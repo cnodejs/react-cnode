@@ -1,19 +1,21 @@
-import { TABS_MAP, TabType } from '@/constants';
-import ProList, { ProListMetas } from '@ant-design/pro-list';
-import { Space, Avatar, Tag } from 'antd';
 import React from 'react';
 import dayjs from 'dayjs';
 import { useHistory } from 'umi';
+import { Space, Avatar, Tag } from 'antd';
 import { ListToolBarProps } from '@ant-design/pro-table';
+import ProList, { ProListMetas } from '@ant-design/pro-list';
+
+import { TABS_MAP, TabType } from '@/constants';
+
 import * as styles from './index.less';
 
-const TopicItemList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
+const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
   const history = useHistory();
 
   const metas: ProListMetas = {
     avatar: {
       dataIndex: 'author.avatar_url',
-      render: (_, entity) => {
+      render: (_, entity: TopicModel) => {
         const { tab: _tab, author, reply_count, visit_count, top } = entity;
 
         const category = TABS_MAP[_tab as TabType];
@@ -55,7 +57,7 @@ const TopicItemList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
       valueType: 'text',
     },
     actions: {
-      render: (_, entity) => {
+      render: (_, entity: TopicModel) => {
         const { last_reply_at } = entity;
         return dayjs(last_reply_at).fromNow();
       },
@@ -82,10 +84,10 @@ const TopicItemList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
   );
 };
 
-export default TopicItemList;
+export default TopicList;
 
 interface Props {
-  dataSource?: any[];
+  dataSource?: TopicModel[];
   loading?: boolean;
   toolbar?: ListToolBarProps;
 }

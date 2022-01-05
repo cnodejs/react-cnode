@@ -4,5 +4,6 @@ export default function (initialState: InitialState) {
   return {
     canPostTopic: !!token,
     canPostComment: !!token,
+    canReadMessage: !!token,
   };
 }

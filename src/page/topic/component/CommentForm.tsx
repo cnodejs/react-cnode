@@ -28,6 +28,7 @@ const CommentForm: React.FC<Props> = (props) => {
             }
 
             await onSubmit(value);
+            setValue('');
           }}
         >
           {onSubmitText}
