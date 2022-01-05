@@ -1,12 +1,18 @@
 {
-  "private": true,
+  "name": "react-cnode",
+  "description": "Frontend Powered By React For CNode.js",
+  "version": "development",
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "umi dev",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "ci": "npm run test",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test:coverage": "umi-test --coverage",
+    "semantic-release": "semantic-release"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -17,6 +23,37 @@
     ],
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
+    ]
+  },
+  "ci": {
+    "type": "github",
+    "os": {
+      "github": "linux"
+    },
+    "version": "16.x"
+  },
+  "release": {
+    "branche": "master",
+    "tagFormat": "${version}",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "History.md"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": {
+            "path": "dist",
+            "label": "Assets Distribution"
+          },
+          "addReleases": "bottom"
+        }
+      ]
     ]
   },
   "dependencies": {
@@ -30,7 +67,9 @@
     "@ant-design/pro-layout": "^6.32.1",
     "@ant-design/pro-list": "^1.21.12",
     "@ant-design/pro-table": "^2.61.9",
+    "@semantic-release/changelog": "^6.0.1",
     "@types/dotenv": "^8.2.0",
+    "@types/jest": "^27.4.0",
     "@types/markdown-it": "^12.2.3",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
@@ -40,10 +79,12 @@
     "@umijs/test": "^3.5.20",
     "ahooks": "^3.1.3",
     "dayjs": "^1.10.7",
+    "egg-ci": "^1.19.0",
     "lint-staged": "^10.0.7",
     "markdown-it": "^12.3.0",
     "prettier": "^2.2.0",
     "react-markdown-editor-lite": "^1.3.2",
+    "semantic-release": "^18.0.1",
     "typescript": "^4.1.2",
     "umi": "^3.5.20",
     "yorkie": "^2.0.0"
