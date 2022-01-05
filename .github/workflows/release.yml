@@ -27,11 +27,9 @@ jobs:
       run: npm i -g npminstall && npminstall
 
     - name: Continuous integration
-      run: |
-        npm run ci
+      run: npm run ci
 
     - name: Semantic Release
-      run: |
-        npm run semantic-release
+      run: npm run build && npm run semantic-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
