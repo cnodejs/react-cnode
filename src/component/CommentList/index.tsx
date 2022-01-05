@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import dayjs from 'dayjs';
+import { Link } from 'umi';
 import Markdown from '@/component/Markdown';
 
 import { Comment, Avatar, Divider } from 'antd';
@@ -38,6 +39,7 @@ const CommentList: React.FC<Props> = (props) => {
     data: Node;
   }> = ({ data }) => {
     const { id, author, content, create_at, children } = data;
+    const { loginname, avatar_url } = author;
 
     return (
       <Fragment key={`fragment-${id}`}>
@@ -63,7 +65,11 @@ const CommentList: React.FC<Props> = (props) => {
           datetime={
             <span>{dayjs(create_at).format('YYYY-MM-DD hh:mm:ss')}</span>
           }
-          avatar={<Avatar src={author.avatar_url} alt={author.loginname} />}
+          avatar={
+            <Link to={`/user/${loginname}`}>
+              <Avatar src={avatar_url} alt={loginname} />
+            </Link>
+          }
           content={
             <div className={styles.detail}>
               <Markdown type="render" value={content} />

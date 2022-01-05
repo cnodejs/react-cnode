@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { useHistory } from 'umi';
+import { Link } from 'umi';
 import { Space, Avatar, Tag } from 'antd';
 import { ListToolBarProps } from '@ant-design/pro-table';
 import ProList, { ProListMetas } from '@ant-design/pro-list';
@@ -10,8 +10,6 @@ import { TABS_MAP, TabType } from '@/constants';
 import * as styles from './index.less';
 
 const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
-  const history = useHistory();
-
   const metas: ProListMetas = {
     avatar: {
       dataIndex: 'author.avatar_url',
@@ -19,6 +17,7 @@ const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
         const { tab: _tab, author, reply_count, visit_count, top } = entity;
 
         const category = TABS_MAP[_tab as TabType];
+        const { loginname, avatar_url } = author;
 
         const renderReplyVisit = () =>
           typeof visit_count === 'number' && (
@@ -41,7 +40,9 @@ const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
 
         return (
           <Space>
-            <Avatar size="small" src={author.avatar_url} />
+            <Link to={`/user/${loginname}`}>
+              <Avatar size="small" src={avatar_url} />
+            </Link>
             {renderReplyVisit()}
             {top ? (
               <Tag color="#5BD8A6">置顶</Tag>
@@ -55,6 +56,10 @@ const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
     title: {
       dataIndex: 'title',
       valueType: 'text',
+      render: (_, entity: TopicModel) => {
+        const { id, title } = entity;
+        return <Link to={`/topic/${id}`}>{title}</Link>;
+      },
     },
     actions: {
       render: (_, entity: TopicModel) => {
@@ -73,13 +78,6 @@ const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
       metas={metas}
       className={styles.list}
       toolbar={toolbar}
-      onRow={(record) => {
-        return {
-          onClick: () => {
-            history.push(`/topic/${record.id}`);
-          },
-        };
-      }}
     />
   );
 };
