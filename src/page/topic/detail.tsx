@@ -48,7 +48,7 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
   }
 
   const onComment = async (data: { content: string; reply_id?: string }) => {
-    console.log(topicId, token, data);
+    console.debug('===onComment', topicId, token, data);
 
     if (!token) {
       return;
@@ -58,8 +58,20 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
       return;
     }
 
-    await API.postTopicReply(topicId, {
+    await API.postReply(topicId, {
       ...data,
+      accesstoken: token,
+    });
+  };
+
+  const onLike = async (record: ReplyModel) => {
+    const { id: replyId } = record;
+
+    if (!replyId || !token) {
+      return;
+    }
+
+    await API.postReplyUps(replyId, {
       accesstoken: token,
     });
   };
@@ -94,7 +106,12 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
     const { replies } = data;
 
     return (
-      <CommentList list={replies} onReply={onReply} replyRender={renderReply} />
+      <CommentList
+        list={replies}
+        onLike={onLike}
+        onReply={onReply}
+        replyRender={renderReply}
+      />
     );
   };
 

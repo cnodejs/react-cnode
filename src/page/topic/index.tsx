@@ -10,15 +10,21 @@ import type { TabType } from '@/constants';
 
 import * as API from '@/service/topic';
 import * as styles from './index.less';
-import TopicItemList from '@/component/TopicItemList';
+import TopicList from '@/component/TopicList';
 
 interface Props {}
 
-const TopicList: React.FC<Props> = (props) => {
+const TopicListPage: React.FC<Props> = (props) => {
   const access = useAccess();
   const history = useHistory();
 
-  const state = useReactive({
+  const state = useReactive<{
+    tab: string;
+    page: number;
+    limit: number;
+    hasNext: boolean;
+    data: TopicModel[];
+  }>({
     tab: 'share',
     page: 1,
     limit: 25,
@@ -135,7 +141,7 @@ const TopicList: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <TopicItemList
+      <TopicList
         loading={loading}
         dataSource={data.filter((item: any) => item?.author?.loginname)}
         toolbar={{
@@ -159,4 +165,4 @@ const TopicList: React.FC<Props> = (props) => {
   );
 };
 
-export default TopicList;
+export default TopicListPage;

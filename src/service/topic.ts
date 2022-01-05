@@ -6,7 +6,9 @@ export const queryTopicList = async (params: {
   page?: number;
   limit?: number;
   mdrender?: boolean;
-}) => {
+}): Promise<{
+  data: TopicModel[];
+}> => {
   const { tab = 'ask', page = 1, limit = 10, mdrender = false } = params;
   const options: any = {
     method: 'GET',
@@ -41,7 +43,9 @@ export const queryTopicDetail = async (params: {
   id: string;
   mdrender?: boolean;
   accesstoken?: boolean;
-}) => {
+}): Promise<{
+  data: TopicModel;
+}> => {
   const { id, mdrender, accesstoken } = params;
   const options: any = {
     method: 'GET',
@@ -54,7 +58,7 @@ export const queryTopicDetail = async (params: {
   return request(`${BASE_URL}/api/v1/topic/${id}`, options);
 };
 
-export const postTopicReply = async (
+export const postReply = async (
   topicId: string,
   data: {
     content: string;
@@ -68,4 +72,18 @@ export const postTopicReply = async (
   };
 
   return request(`${BASE_URL}/api/v1/topic/${topicId}/replies`, options);
+};
+
+export const postReplyUps = async (
+  replyId: string,
+  data: {
+    accesstoken: string;
+  },
+) => {
+  const options: any = {
+    method: 'POST',
+    data,
+  };
+
+  return request(`${BASE_URL}/api/v1/reply/${replyId}/ups`, options);
 };
