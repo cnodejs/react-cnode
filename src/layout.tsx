@@ -10,36 +10,37 @@ import {
 
 import config from '../config/basic';
 import Brand from './component/Brand';
+import RightContent from './component/RightContent';
 
-const RightContent: React.FC<{
-  user?: UserModel;
-}> = (props) => {
-  const user = props?.user;
+// const RightContent: React.FC<{
+//   user?: UserModel;
+// }> = (props) => {
+//   const user = props?.user;
 
-  if (!user) {
-    return (
-      <div className="cnode-header-right">
-        <Button
-          type="link"
-          onClick={() => {
-            history.push('/auth');
-          }}
-        >
-          登录
-        </Button>
-      </div>
-    );
-  }
+//   if (!user) {
+//     return (
+//       <div className="cnode-header-right">
+//         <Button
+//           type="link"
+//           onClick={() => {
+//             history.push('/auth');
+//           }}
+//         >
+//           登录
+//         </Button>
+//       </div>
+//     );
+//   }
 
-  const { loginname, avatar_url } = user;
-  return (
-    <div className="cnode-header-right">
-      <Tooltip title={loginname}>
-        <Avatar shape="square" size="small" src={avatar_url} />
-      </Tooltip>
-    </div>
-  );
-};
+//   const { loginname, avatar_url } = user;
+//   return (
+//     <div className="cnode-header-right">
+//       <Tooltip title={loginname}>
+//         <Avatar shape="square" size="small" src={avatar_url} />
+//       </Tooltip>
+//     </div>
+//   );
+// };
 
 const layoutConfig = ({
   initialState,
@@ -90,7 +91,7 @@ const layoutConfig = ({
       item.path && <Link to={item.path}>{item.name}</Link>,
 
     rightContentRender: () => {
-      return <RightContent user={initialState.user} />;
+      return <RightContent />;
     },
 
     footerRender: () => (

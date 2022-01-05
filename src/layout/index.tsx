@@ -30,6 +30,11 @@ const getCurrentRoute = (route: IRoute, path: string): IRoute | undefined => {
   return target;
 };
 
+const BREADCRUMB_NAME_MAP = {
+  user: '用户',
+  topic: '话题',
+};
+
 const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const { route, location } = props;
   const currentRoute = getCurrentRoute(route, location.pathname);
@@ -38,14 +43,13 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
     title: currentRoute?.title || currentRoute?.name,
   };
 
-  const topicDetailRegx = /\/topic\/([a-f0-9]){24}/g;
-  const userDetailRegx = /\/user\/(.*)/g;
+  const detailRegx = /\/(topic|user)\/(.*)/g;
 
-  if (
-    location.pathname.match(topicDetailRegx) ||
-    location.pathname.match(userDetailRegx)
-  ) {
-    const currentBreadcrumbName = location.pathname.split('/').pop();
+  if (location.pathname.match(detailRegx)) {
+    const paths = location.pathname.split('/');
+
+    const id = paths.pop();
+    const category = paths.pop();
 
     headerConfig = {
       title: null,
@@ -59,8 +63,12 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
             breadcrumbName: '主页',
           },
           {
+            path: '/',
+            breadcrumbName: BREADCRUMB_NAME_MAP[category as 'user' | 'topic'],
+          },
+          {
             path: location.pathname,
-            breadcrumbName: currentBreadcrumbName,
+            breadcrumbName: id,
           },
         ],
       },
