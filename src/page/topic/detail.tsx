@@ -5,12 +5,12 @@ import { useRequest } from 'ahooks';
 import { PageHeader, Divider } from 'antd';
 import * as API from '@/service/topic';
 
-import SubTitle from './component/SubTitle';
 import Markdown from '@/component/Markdown';
-import CommentForm from './component/CommentForm';
-import CommentList from './component/CommentList';
+import CommentList from '@/component/CommentList';
+import CommentForm from '@/component/CommentForm';
+import SubTitle from './component/SubTitle';
 
-const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
+const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const params: Record<string, any> = useParams();
   const topicId = params?.id;
 
@@ -174,6 +174,6 @@ const TopicDetail: React.FC<React.PropsWithChildren<Props>> = (props) => {
   );
 };
 
-export default TopicDetail;
+export default TopicDetailPage;
 
 interface Props {}
