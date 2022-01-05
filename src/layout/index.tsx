@@ -1,13 +1,12 @@
 import React from 'react';
 import ProCard from '@ant-design/pro-card';
 
-import { IRoute, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Affix, Button, Space, BackTop } from 'antd';
-import { UpCircleOutlined } from '@ant-design/icons';
+import { BackTop, Space } from 'antd';
+import { IRoute, Link } from 'umi';
 
-import UserInfo from './component/UserInfo';
 import AppQrcode from './component/AppQrcode';
+import UserInfo from './component/UserInfo';
 
 const getCurrentRoute = (route: IRoute, path: string): IRoute | undefined => {
   let target;
@@ -95,23 +94,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
         </ProCard>
       </ProCard>
 
-      <Affix
-        offsetBottom={50}
-        style={{
-          position: 'fixed',
-          right: '24px',
-        }}
-      >
-        {/* <Button
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
-        >
-          <UpCircleOutlined />
-          回到顶部
-        </Button> */}
-        <BackTop />
-      </Affix>
+      <BackTop />
     </PageContainer>
   );
 };
