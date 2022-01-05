@@ -28,7 +28,7 @@ jobs:
 
     - name: Continuous integration
       run: |
-        run: npm run ci
+        npm run ci
 
     - name: Semantic Release
       run: |
