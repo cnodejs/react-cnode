@@ -40,6 +40,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
 
   let headerConfig: any = {
     title: currentRoute?.title || currentRoute?.name,
+    subTitle: currentRoute?.description,
   };
 
   const detailRegx = /\/(topic|user)\/(.*)/g;

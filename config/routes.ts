@@ -17,13 +17,15 @@ const routes: IRoute[] = [
         exact: true,
         icon: 'home',
         name: '主页',
+        description:
+          'CNode 社区为国内最专业的 Node.js 开源技术社区，致力于 Node.js 的技术研究。',
         component: '@/page/topic',
       },
       {
         path: '/my/messages',
         exact: true,
         icon: 'message',
-        name: '未读消息',
+        title: '未读消息',
         access: 'canReadMessage',
         component: '@/page/message',
       },
