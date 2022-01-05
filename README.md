@@ -1,6 +1,6 @@
-# react-cnode
+# React-CNode.js
 
-CNode 社区 React 版本
+> Frontend Powered By React For CNode.js
 
 ## Getting Started
 
@@ -13,5 +13,5 @@ $ yarn
 Start the dev server,
 
 ```bash
-$ yarn start
+$ yarn dev
 ```
