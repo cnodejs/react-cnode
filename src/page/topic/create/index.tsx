@@ -55,7 +55,7 @@ const CreateTopic: React.FC<Props> = (props) => {
         <Form.Item
           label="标题"
           name="title"
-          rules={[{ required: true }, { min: 8 }]}
+          rules={[{ required: true }, { min: 10 }]}
         >
           <Input allowClear />
         </Form.Item>
