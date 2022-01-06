@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useParams, useModel } from 'umi';
 import { useRequest } from 'ahooks';
-import { PageHeader, Divider } from 'antd';
+import { PageHeader, Divider, message } from 'antd';
 import * as API from '@/service/topic';
 
 import Markdown from '@/component/Markdown';
@@ -20,6 +20,7 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const token = initialState?.token;
 
   const [reply, setReply] = useState<ReplyModel | null>();
+  const [editComment, setEditComment] = useState<ReplyModel | null>();
 
   if (!topicId) {
     return null;
@@ -85,6 +86,21 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
     setReply(record);
   };
 
+  const onEdit = (record: ReplyModel) => {
+    if (editComment?.id === record.id) {
+      setEditComment(null);
+      return;
+    }
+
+    setEditComment(record);
+  };
+
+  const onSubmitEdit = async (content: string) => {
+    message.info(content);
+    setEditComment(null);
+    refresh();
+  };
+
   const renderTopicDetail = () => {
     if (!data) {
       return null;
@@ -110,7 +126,10 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
         list={replies}
         onLike={onLike}
         onReply={onReply}
+        onEdit={onEdit}
         replyRender={renderReply}
+        editComment={editComment}
+        onSubmitEdit={onSubmitEdit}
       />
     );
   };

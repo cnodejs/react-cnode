@@ -3,7 +3,13 @@ import { Comment, Avatar, Button } from 'antd';
 import Markdown from '@/component/Markdown';
 
 const CommentForm: React.FC<Props> = (props) => {
-  const { data, user, onSubmit, onSubmitText = '提交评论' } = props;
+  const {
+    data,
+    user,
+    onSubmit,
+    onSubmitText = '提交评论',
+    extraActions = [],
+  } = props;
   const { loginname, avatar_url } = user;
   const [value, setValue] = useState('');
 
@@ -33,9 +39,12 @@ const CommentForm: React.FC<Props> = (props) => {
         >
           {onSubmitText}
         </Button>,
+        ...extraActions,
       ]}
       content={<Markdown type="editor" value={value} onChange={setValue} />}
-    />
+    >
+      {props.children}
+    </Comment>
   );
 };
 
@@ -49,4 +58,6 @@ interface Props {
   };
   onSubmit: (value: string) => Promise<void>;
   onSubmitText?: string;
+
+  extraActions?: React.ReactNode[];
 }
