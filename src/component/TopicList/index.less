@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.less';
+
 .list {
   :global {
     .ant-card {
@@ -6,5 +8,13 @@
         padding: 0;
       }
     }
+  }
+}
+
+.link {
+  color: @text-color;
+
+  &:hover {
+    color: @primary-color;
   }
 }

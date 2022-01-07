@@ -58,7 +58,11 @@ const TopicList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
       valueType: 'text',
       render: (_, entity: TopicModel) => {
         const { id, title } = entity;
-        return <Link to={`/topic/${id}`}>{title}</Link>;
+        return (
+          <Link to={`/topic/${id}`} className={styles.link}>
+            {title}
+          </Link>
+        );
       },
     },
     actions: {

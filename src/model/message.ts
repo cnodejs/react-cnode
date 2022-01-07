@@ -45,5 +45,34 @@ export default () => {
     setUnreadMessage(data.hasnot_read_messages);
   }, [token]);
 
-  return { count, message, unreadMessage, load, fetch };
+  const mark = useCallback(
+    async (id: string) => {
+      if (!token) {
+        return;
+      }
+
+      await API.markMessage(id, {
+        accesstoken: token,
+      });
+
+      load();
+      fetch();
+    },
+    [token],
+  );
+
+  const markAll = useCallback(async () => {
+    if (!token) {
+      return;
+    }
+
+    await API.markAllMessage({
+      accesstoken: token,
+    });
+
+    load();
+    fetch();
+  }, [token]);
+
+  return { count, message, unreadMessage, load, fetch, mark, markAll };
 };
