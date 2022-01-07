@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { BASE_URL } from '@/constants';
 
-export const getMessageCount = async (params: {
+export const countMessage = async (params: {
   accesstoken: string;
 }): Promise<{
   data: number;
@@ -14,7 +14,7 @@ export const getMessageCount = async (params: {
   return res;
 };
 
-export const getMessages = async (params: {
+export const listMessage = async (params: {
   accesstoken: string;
   mdrender?: boolean;
 }): Promise<{

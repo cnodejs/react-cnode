@@ -31,7 +31,7 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
         return;
       }
 
-      const res = await API.readTopic({
+      const res = await API.loadTopic({
         id: topicId,
         mdrender: false,
       });
@@ -48,8 +48,6 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
   }
 
   const onComment = async (data: { content: string; reply_id?: string }) => {
-    console.debug('===onComment', topicId, token, data);
-
     if (!token) {
       return;
     }

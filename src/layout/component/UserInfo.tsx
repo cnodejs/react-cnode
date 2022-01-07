@@ -21,7 +21,7 @@ const UserInfo: React.FC<Props> = (props) => {
         return;
       }
 
-      const res = await API.getUserInfo({ loginname });
+      const res = await API.loadUser({ loginname });
       return res.data;
     },
     {

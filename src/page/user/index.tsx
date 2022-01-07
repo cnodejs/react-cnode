@@ -7,7 +7,7 @@ import { Avatar, Divider, Space, Typography } from 'antd';
 import ProCard from '@ant-design/pro-card';
 
 import TopicList from '@/component/TopicList';
-import { getUserInfo } from '@/service/user';
+import * as API from '@/service/user';
 
 import * as styles from './index.less';
 
@@ -19,7 +19,7 @@ const UserDetailPage: React.FC<Props> = (props) => {
   const { data } = useRequest(async () => {
     if (!params) return;
     const { loginname } = params;
-    const { data } = await getUserInfo({ loginname });
+    const { data } = await API.loadUser({ loginname });
     return data;
   });
 

@@ -7,9 +7,6 @@ import MessageList from '@/component/MessageList';
 const MessagePage: React.FC<Props> = (props) => {
   const { message, unreadMessage, mark, markAll } = useModel('message');
 
-  console.debug('===message', message);
-  console.debug('===unreadMessage', unreadMessage);
-
   const renderUnreadMessage = () => {
     if (unreadMessage?.length === 0) {
       return <span>暂无新消息</span>;

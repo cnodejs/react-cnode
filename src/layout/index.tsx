@@ -32,6 +32,7 @@ const getCurrentRoute = (route: IRoute, path: string): IRoute | undefined => {
 const BREADCRUMB_NAME_MAP = {
   user: '用户',
   topic: '话题',
+  edit: '编辑',
 };
 
 const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
@@ -46,7 +47,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const detailPaths = location.pathname.match(/\/(topic|user)\/(\w+)(\/\w+)?/);
 
   if (detailPaths) {
-    const [, category, id, status] = detailPaths;
+    const [pathname, category, id, status] = detailPaths;
 
     const isEdit = status === '/edit';
 
@@ -60,17 +61,15 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
         breadcrumbName: BREADCRUMB_NAME_MAP[category as 'user' | 'topic'],
       },
       {
-        path: isEdit
-          ? location.pathname.replace(status, '')
-          : location.pathname,
+        path: `/${category}/${id}`,
         breadcrumbName: id,
       },
     ];
 
     if (isEdit) {
       routes.push({
-        path: location.pathname,
-        breadcrumbName: '编辑',
+        path: pathname,
+        breadcrumbName: BREADCRUMB_NAME_MAP['edit'],
       });
     }
 

@@ -54,7 +54,7 @@ export const updateTopic = async (data: {
   return request(`${BASE_URL}/api/v1/topics/update`, options);
 };
 
-export const readTopic = async (params: {
+export const loadTopic = async (params: {
   id: string;
   mdrender?: boolean;
   accesstoken?: boolean;
