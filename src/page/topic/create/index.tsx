@@ -21,7 +21,7 @@ const CreateTopic: React.FC<Props> = (props) => {
   useRequest(
     async () => {
       if (!id) return;
-      const { data } = await API.queryTopicDetail({
+      const { data } = await API.readTopic({
         id,
         mdrender: false,
       });
@@ -51,7 +51,7 @@ const CreateTopic: React.FC<Props> = (props) => {
         accesstoken: token,
       });
     } else {
-      await API.postTopic({
+      await API.createTopic({
         ...values,
         accesstoken: token,
       });
