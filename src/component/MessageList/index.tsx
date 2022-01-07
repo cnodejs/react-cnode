@@ -9,7 +9,12 @@ import { MESSAGE_TYPE_MAP, MessageType } from '@/constants';
 
 import * as styles from './index.less';
 
-const MessageList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
+const MessageList: React.FC<Props> = ({
+  dataSource,
+  loading,
+  toolbar,
+  onClick,
+}) => {
   const metas: ProListMetas = {
     avatar: {
       dataIndex: 'author.avatar_url',
@@ -25,7 +30,7 @@ const MessageList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
                 width: '200px',
               }}
             >
-              <Link to={`/user/${loginname}`}>
+              <Link to={`/user/${loginname}`} className={styles.link}>
                 <Space size={8}>
                   <Avatar size="small" src={avatar_url} />
                   <span>{loginname}</span>
@@ -43,9 +48,20 @@ const MessageList: React.FC<Props> = ({ dataSource, loading, toolbar }) => {
       valueType: 'text',
       render: (_, entity: MessageModel) => {
         const {
+          id: messageId,
           topic: { id, title },
         } = entity;
-        return <Link to={`/topic/${id}`}>{title}</Link>;
+        return (
+          <Link
+            to={`/topic/${id}`}
+            className={styles.link}
+            onClick={() => {
+              onClick && onClick(messageId);
+            }}
+          >
+            {title}
+          </Link>
+        );
       },
     },
     actions: {
@@ -74,4 +90,5 @@ interface Props {
   dataSource?: MessageModel[];
   loading?: boolean;
   toolbar?: ListToolBarProps;
+  onClick?: (id: string) => void;
 }
