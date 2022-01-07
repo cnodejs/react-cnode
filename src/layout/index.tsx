@@ -43,17 +43,12 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
     subTitle: currentRoute?.description,
   };
 
-  const detailRegx = /\/(topic|user)\/(.*)/g;
+  const detailPaths = location.pathname.match(/\/(topic|user)\/(\w+)(\/\w+)?/);
 
-  const isEdit = location.pathname.endsWith('/edit');
+  if (detailPaths) {
+    const [, category, id, status] = detailPaths;
 
-  if (location.pathname.match(detailRegx)) {
-    const paths = location.pathname.split('/');
-
-    if (isEdit) paths.pop();
-
-    const id = paths.pop();
-    const category = paths.pop();
+    const isEdit = status === '/edit';
 
     const routes = [
       {
@@ -65,7 +60,9 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
         breadcrumbName: BREADCRUMB_NAME_MAP[category as 'user' | 'topic'],
       },
       {
-        path: isEdit ? location.pathname.slice(0, -5) : location.pathname,
+        path: isEdit
+          ? location.pathname.replace(status, '')
+          : location.pathname,
         breadcrumbName: id,
       },
     ];
