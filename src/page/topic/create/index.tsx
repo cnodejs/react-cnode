@@ -12,6 +12,7 @@ const CreateTopic: React.FC<Props> = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const { initialState } = useModel('@@initialState');
+  const { user } = useModel('user');
 
   const token = initialState?.token;
 
@@ -24,6 +25,11 @@ const CreateTopic: React.FC<Props> = (props) => {
         id,
         mdrender: false,
       });
+
+      if (data.author_id !== user?.id) {
+        history.push(location.pathname.replace(/\/edit$/, ''));
+        return;
+      }
 
       form.setFieldsValue({
         title: data.title,
