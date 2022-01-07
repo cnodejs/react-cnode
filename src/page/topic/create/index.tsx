@@ -9,7 +9,7 @@ import * as API from '@/service/topic';
 import * as styles from './index.less';
 import { useRequest } from 'ahooks';
 
-const CreateTopic: React.FC<Props> = (props) => {
+const TopicEditPage: React.FC<Props> = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const { initialState } = useModel('@@initialState');
@@ -124,6 +124,6 @@ const CreateTopic: React.FC<Props> = (props) => {
   );
 };
 
-export default CreateTopic;
+export default TopicEditPage;
 
 interface Props {}
