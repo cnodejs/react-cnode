@@ -8,7 +8,7 @@ import Markdown from '@/component/Markdown';
 import * as API from '@/service/topic';
 import * as styles from './index.less';
 
-const CreateTopic: React.FC<Props> = (props) => {
+const TopicEditPage: React.FC<Props> = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const { initialState } = useModel('@@initialState');
@@ -21,7 +21,7 @@ const CreateTopic: React.FC<Props> = (props) => {
   useRequest(
     async () => {
       if (!id) return;
-      const { data } = await API.queryTopicDetail({
+      const { data } = await API.readTopic({
         id,
         mdrender: false,
       });
@@ -56,7 +56,7 @@ const CreateTopic: React.FC<Props> = (props) => {
         accesstoken: token,
       });
     } else {
-      await API.postTopic({
+      await API.createTopic({
         ...values,
         accesstoken: token,
       });
@@ -123,6 +123,6 @@ const CreateTopic: React.FC<Props> = (props) => {
   );
 };
 
-export default CreateTopic;
+export default TopicEditPage;
 
 interface Props {}

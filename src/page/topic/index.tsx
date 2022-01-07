@@ -36,7 +36,7 @@ const TopicListPage: React.FC<Props> = (props) => {
 
   const { loading, refresh } = useRequest(
     async () => {
-      const res = await API.queryTopicList({
+      const res = await API.listTopic({
         tab,
         page,
         limit,

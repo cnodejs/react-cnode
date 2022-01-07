@@ -11,9 +11,9 @@ import { getUserInfo } from '@/service/user';
 
 import * as styles from './index.less';
 
-const { Text, Paragraph } = Typography;
+const { Text } = Typography;
 
-const UserDetail: React.FC<Props> = (props) => {
+const UserDetailPage: React.FC<Props> = (props) => {
   const params: Record<string, any> = useParams();
 
   const { data } = useRequest(async () => {
@@ -92,6 +92,6 @@ const UserDetail: React.FC<Props> = (props) => {
   );
 };
 
-export default UserDetail;
+export default UserDetailPage;
 
 interface Props {}

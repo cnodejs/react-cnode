@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { BASE_URL } from '@/constants';
 
-export const queryTopicList = async (params: {
+export const listTopic = async (params: {
   tab?: string;
   page?: number;
   limit?: number;
@@ -25,7 +25,7 @@ export const queryTopicList = async (params: {
   return res;
 };
 
-export const postTopic = async (data: {
+export const createTopic = async (data: {
   title: string;
   tab: string;
   content: string;
@@ -54,7 +54,7 @@ export const updateTopic = async (data: {
   return request(`${BASE_URL}/api/v1/topics/update`, options);
 };
 
-export const queryTopicDetail = async (params: {
+export const readTopic = async (params: {
   id: string;
   mdrender?: boolean;
   accesstoken?: boolean;
@@ -73,7 +73,7 @@ export const queryTopicDetail = async (params: {
   return request(`${BASE_URL}/api/v1/topic/${id}`, options);
 };
 
-export const postReply = async (
+export const createReply = async (
   topicId: string,
   data: {
     content: string;
@@ -89,7 +89,7 @@ export const postReply = async (
   return request(`${BASE_URL}/api/v1/topic/${topicId}/replies`, options);
 };
 
-export const postReplyUps = async (
+export const updateReplyUps = async (
   replyId: string,
   data: {
     accesstoken: string;
