@@ -43,13 +43,36 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
     subTitle: currentRoute?.description,
   };
 
-  const detailRegx = /\/(topic|user)\/(.*)/g;
+  const detailPaths = location.pathname.match(/\/(topic|user)\/(\w+)(\/\w+)?/);
 
-  if (location.pathname.match(detailRegx)) {
-    const paths = location.pathname.split('/');
+  if (detailPaths) {
+    const [, category, id, status] = detailPaths;
 
-    const id = paths.pop();
-    const category = paths.pop();
+    const isEdit = status === '/edit';
+
+    const routes = [
+      {
+        path: '/',
+        breadcrumbName: '主页',
+      },
+      {
+        path: '/',
+        breadcrumbName: BREADCRUMB_NAME_MAP[category as 'user' | 'topic'],
+      },
+      {
+        path: isEdit
+          ? location.pathname.replace(status, '')
+          : location.pathname,
+        breadcrumbName: id,
+      },
+    ];
+
+    if (isEdit) {
+      routes.push({
+        path: location.pathname,
+        breadcrumbName: '编辑',
+      });
+    }
 
     headerConfig = {
       title: null,
@@ -57,20 +80,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
         itemRender: (route: { path: string; breadcrumbName: string }) => {
           return <Link to={route.path}>{route.breadcrumbName}</Link>;
         },
-        routes: [
-          {
-            path: '/',
-            breadcrumbName: '主页',
-          },
-          {
-            path: '/',
-            breadcrumbName: BREADCRUMB_NAME_MAP[category as 'user' | 'topic'],
-          },
-          {
-            path: location.pathname,
-            breadcrumbName: id,
-          },
-        ],
+        routes,
       },
     };
   }

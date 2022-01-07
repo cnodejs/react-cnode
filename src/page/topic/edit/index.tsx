@@ -1,5 +1,5 @@
 import React from 'react';
-import { useModel, useHistory } from 'umi';
+import { useModel, useHistory, useParams, useRequest } from 'umi';
 import { Form, Input, Select, Button, Space } from 'antd';
 import { TABS_MAP } from '@/constants';
 
@@ -8,12 +8,39 @@ import Markdown from '@/component/Markdown';
 import * as API from '@/service/topic';
 import * as styles from './index.less';
 
-const CreateTopic: React.FC<Props> = (props) => {
+const TopicEditPage: React.FC<Props> = (props) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const { initialState } = useModel('@@initialState');
+  const { user } = useModel('user');
 
   const token = initialState?.token;
+
+  const { id } = useParams<{ id?: string }>();
+
+  useRequest(
+    async () => {
+      if (!id) return;
+      const { data } = await API.readTopic({
+        id,
+        mdrender: false,
+      });
+
+      if (data.author_id !== user?.id) {
+        history.push(location.pathname.replace(/\/edit$/, ''));
+        return;
+      }
+
+      form.setFieldsValue({
+        title: data.title,
+        content: data.content,
+        tab: data.tab,
+      });
+    },
+    {
+      ready: !!id,
+    },
+  );
 
   const onFinish = async (values: any) => {
     console.debug('===create.values', values);
@@ -22,10 +49,18 @@ const CreateTopic: React.FC<Props> = (props) => {
       return;
     }
 
-    await API.postTopic({
-      ...values,
-      accesstoken: token,
-    });
+    if (id) {
+      await API.updateTopic({
+        topic_id: id,
+        ...values,
+        accesstoken: token,
+      });
+    } else {
+      await API.createTopic({
+        ...values,
+        accesstoken: token,
+      });
+    }
 
     onReset();
 
@@ -88,6 +123,6 @@ const CreateTopic: React.FC<Props> = (props) => {
   );
 };
 
-export default CreateTopic;
+export default TopicEditPage;
 
 interface Props {}

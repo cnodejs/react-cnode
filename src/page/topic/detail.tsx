@@ -31,7 +31,7 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
         return;
       }
 
-      const res = await API.queryTopicDetail({
+      const res = await API.readTopic({
         id: topicId,
         mdrender: false,
       });
@@ -58,7 +58,7 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
       return;
     }
 
-    await API.postReply(topicId, {
+    await API.createReply(topicId, {
       ...data,
       accesstoken: token,
     });
@@ -71,7 +71,7 @@ const TopicDetailPage: React.FC<React.PropsWithChildren<Props>> = (props) => {
       return;
     }
 
-    await API.postReplyUps(replyId, {
+    await API.updateReplyUps(replyId, {
       accesstoken: token,
     });
   };

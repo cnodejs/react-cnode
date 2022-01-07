@@ -54,13 +54,18 @@ const routes: IRoute[] = [
         path: '/topic/create',
         exact: true,
         title: '新建话题',
-        component: '@/page/topic/create',
+        component: '@/page/topic/edit',
         access: 'canPostTopic',
       },
       {
         path: '/topic/:id',
         exact: true,
         component: '@/page/topic/detail',
+      },
+      {
+        path: '/topic/:id/edit',
+        exact: true,
+        component: '@/page/topic/edit',
       },
       {
         path: '/user/:loginname',
