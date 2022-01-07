@@ -66,6 +66,7 @@ const routes: IRoute[] = [
         path: '/topic/:id/edit',
         exact: true,
         component: '@/page/topic/edit',
+        access: 'canPostTopic',
       },
       {
         path: '/user/:loginname',

@@ -21,7 +21,7 @@ const TopicEditPage: React.FC<Props> = (props) => {
   useRequest(
     async () => {
       if (!id) return;
-      const { data } = await API.readTopic({
+      const { data } = await API.loadTopic({
         id,
         mdrender: false,
       });
@@ -43,8 +43,6 @@ const TopicEditPage: React.FC<Props> = (props) => {
   );
 
   const onFinish = async (values: any) => {
-    console.debug('===create.values', values);
-
     if (!token) {
       return;
     }

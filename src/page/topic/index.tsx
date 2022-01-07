@@ -86,7 +86,6 @@ const TopicListPage: React.FC<Props> = (props) => {
       // console.debug('===scrollHeight', scrollHeight);
 
       if (pageYOffset + offsetHeight === scrollHeight) {
-        // console.log('===onReachEnd', hasNext, loading);
         onReachEnd();
       }
     };

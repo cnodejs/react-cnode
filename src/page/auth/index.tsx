@@ -34,7 +34,7 @@ const AuthPage: React.FC<Props> = () => {
     const { accessToken } = values;
 
     if (type === FORM_TYPE.LOGIN) {
-      const data = await API.verifyAccessToken({
+      const data = await API.authByAccessToken({
         accesstoken: accessToken,
       });
 

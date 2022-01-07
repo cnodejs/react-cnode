@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { BASE_URL } from '@/constants';
 
-export const verifyAccessToken = async (data: {
+export const authByAccessToken = async (data: {
   accesstoken: string;
 }): Promise<{ id: string; loginname: string; avatar_url: string }> => {
   const options: any = {
@@ -13,7 +13,7 @@ export const verifyAccessToken = async (data: {
   return res;
 };
 
-export const getUserInfo = async (params: {
+export const loadUser = async (params: {
   loginname: string;
 }): Promise<{
   data: {

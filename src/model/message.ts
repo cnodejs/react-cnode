@@ -24,7 +24,7 @@ export default () => {
       return;
     }
 
-    const { data } = await API.getMessageCount({
+    const { data } = await API.countMessage({
       accesstoken: token,
     });
 
@@ -36,7 +36,7 @@ export default () => {
       return;
     }
 
-    const { data } = await API.getMessages({
+    const { data } = await API.listMessage({
       accesstoken: token,
       mdrender: false,
     });
