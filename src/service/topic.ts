@@ -39,6 +39,21 @@ export const postTopic = async (data: {
   return request(`${BASE_URL}/api/v1/topics`, options);
 };
 
+export const updateTopic = async (data: {
+  topic_id: string;
+  title: string;
+  tab: string;
+  content: string;
+  accesstoken: string;
+}) => {
+  const options: any = {
+    method: 'POST',
+    data,
+  };
+
+  return request(`${BASE_URL}/api/v1/topics/update`, options);
+};
+
 export const queryTopicDetail = async (params: {
   id: string;
   mdrender?: boolean;

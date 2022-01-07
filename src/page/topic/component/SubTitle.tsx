@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 import { Avatar, Divider, Space, Button } from 'antd';
 import { Link } from 'umi';
+import { FormOutlined } from '@ant-design/icons';
 
 const SubTitle: React.FC<Props> = (props) => {
   const { author, create_at, visit_count, reply_count } = props;
@@ -14,6 +15,10 @@ const SubTitle: React.FC<Props> = (props) => {
       <span>发布：{dayjs(create_at).format('YYYY-MM-DD hh:mm:ss')}</span>
       <span>浏览：{visit_count}</span>
       <span>回复：{reply_count}</span>
+
+      <Link to={location.pathname + '/edit'}>
+        <FormOutlined />
+      </Link>
     </Space>
   );
 };
