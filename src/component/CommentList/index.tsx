@@ -6,8 +6,8 @@ import Markdown from '@/component/Markdown';
 import { Comment, Avatar, Divider } from 'antd';
 import {
   LikeFilled,
-  EditFilled,
-  DeleteFilled,
+  // EditFilled,
+  // DeleteFilled,
   CommentOutlined,
 } from '@ant-design/icons';
 
@@ -53,8 +53,9 @@ const CommentList: React.FC<Props> = (props) => {
                 onLike && onLike(data);
               }}
             />,
-            <EditFilled />,
-            <DeleteFilled />,
+            // access.admin
+            // <EditFilled />,
+            // <DeleteFilled />,
             <CommentOutlined
               onClick={() => {
                 onReply && onReply(data);

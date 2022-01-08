@@ -46,23 +46,47 @@ export default defineConfig({
   },
 
   // umi.js
+  hash: true,
   singular: true,
 
   fastRefresh: {},
-
   mfsu: {},
+  esbuild: {},
+  webpack5: {},
+
+  nodeModulesTransform: {
+    type: 'none',
+    exclude: [],
+  },
+
+  targets: {
+    chrome: 79,
+    firefox: false,
+    safari: false,
+    edge: false,
+    ios: false,
+  },
 
   externals: {
     react: 'window.React',
-    'react-dom': 'ReactDOM',
-    antd: 'antd',
-    dayjs: 'dayjs',
+    'react-dom': 'window.ReactDOM',
+    antd: 'window.antd',
+    dayjs: 'window.dayjs',
+    '@ant-design/icons': 'window.icons',
+    'markdown-it': 'window.markdownit',
+    'react-markdown-editor-lite': 'window.ReactMarkdownEditorLite',
   },
 
   styles:
     process.env.NODE_ENV === 'development'
-      ? ['//unpkg.com/antd@4.x/dist/antd.css']
-      : ['//unpkg.com/antd@4.x/dist/antd.min.css'],
+      ? [
+          '//unpkg.com/antd@4.x/dist/antd.css',
+          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.css',
+        ]
+      : [
+          '//unpkg.com/antd@4.x/dist/antd.min.css',
+          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.css',
+        ],
 
   scripts:
     process.env.NODE_ENV === 'development'
@@ -70,18 +94,20 @@ export default defineConfig({
           '//unpkg.com/react@17.x/umd/react.development.js',
           '//unpkg.com/react-dom@17.x/umd/react-dom.development.js',
           '//unpkg.com/antd@4.x/dist/antd.js',
+          '//unpkg.com/@ant-design/icons@4.x/dist/index.umd.js',
           '//unpkg.com/dayjs@1.x/dayjs.min.js',
+          '//unpkg.com/markdown-it@8.x/dist/markdown-it.js',
+          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.js',
         ]
       : [
           '//unpkg.com/react@17.x/umd/react.production.min.js',
           '//unpkg.com/react-dom@17.x/umd/react-dom.production.min.js',
           '//unpkg.com/antd@4.x/dist/antd.min.js',
+          '//unpkg.com/@ant-design/icons@4.x/dist/index.umd.min.js',
           '//unpkg.com/dayjs@1.x/dayjs.min.js',
+          '//unpkg.com/markdown-it@8.x/dist/markdown-it.min.js',
+          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.js',
         ],
-
-  nodeModulesTransform: {
-    type: 'none',
-  },
 
   antd: {},
 
@@ -94,6 +120,8 @@ export default defineConfig({
   },
 
   layout: {},
+
+  locale: false,
 
   qiankun: {
     master: {
