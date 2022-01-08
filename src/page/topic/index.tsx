@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useHistory, useAccess } from 'umi';
-import { Divider, Button } from 'antd';
+import { Button, Tabs, Space } from 'antd';
 import { useRequest, useReactive } from 'ahooks';
 import { ReloadOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -13,6 +13,8 @@ import * as styles from './index.less';
 import TopicList from '@/component/TopicList';
 
 interface Props {}
+
+const { TabPane } = Tabs;
 
 const TopicListPage: React.FC<Props> = (props) => {
   const access = useAccess();
@@ -42,8 +44,12 @@ const TopicListPage: React.FC<Props> = (props) => {
         limit,
       });
 
-      if (res.data.length < limit) {
+      if (res.data.length === 0) {
         state.hasNext = false;
+      }
+
+      if (state.data.length > 200) {
+        state.data = state.data.slice(limit - 1);
       }
 
       state.data = state.data.concat(res.data);
@@ -63,47 +69,12 @@ const TopicListPage: React.FC<Props> = (props) => {
     refresh();
   };
 
-  const onReachEnd = () => {
+  const onLoadMore = () => {
     if (!hasNext) {
       return;
     }
 
     state.page = state.page + 1;
-  };
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    const onScroll = () => {
-      const scrollHeight = document.body.scrollHeight;
-      const offsetHeight = document.body.offsetHeight;
-      const pageYOffset = window.pageYOffset;
-
-      // console.debug('===pageYOffset', pageYOffset);
-      // console.debug('===offsetHeight', offsetHeight);
-      // console.debug('===scrollHeight', scrollHeight);
-
-      if (pageYOffset + offsetHeight === scrollHeight) {
-        onReachEnd();
-      }
-    };
-
-    document.addEventListener('scroll', onScroll, false);
-
-    return () => {
-      document.removeEventListener('scroll', onScroll, false);
-    };
-  }, [loading]);
-
-  const renderFooter = () => {
-    return (
-      <div className={styles.footer}>
-        {' '}
-        {hasNext ? '加载更多...' : '我是有底线的！'}
-      </div>
-    );
   };
 
   const onChangeTabKey = (key: React.Key | undefined) => {
@@ -122,45 +93,55 @@ const TopicListPage: React.FC<Props> = (props) => {
     history.push('/topic/create');
   };
 
-  const actions = [
-    <Button key="refresh" type="default" size="small" onClick={onRefresh}>
-      <ReloadOutlined />
-      刷新
-    </Button>,
-  ];
-
-  if (access.canPostTopic) {
-    actions.push(
-      <Button key="create" type="primary" size="small" onClick={onCreate}>
-        <EditOutlined />
-        新建
-      </Button>,
-    );
-  }
-
-  return (
-    <div>
+  const renderList = () => {
+    return (
       <TopicList
         loading={loading}
+        loadMore={
+          <div className={styles.more}>
+            {' '}
+            {hasNext ? (
+              <Button type="link" onClick={onLoadMore}>
+                加载更多...
+              </Button>
+            ) : (
+              '我是有底线的！'
+            )}
+          </div>
+        }
         dataSource={data.filter((item: any) => item?.author?.loginname)}
-        toolbar={{
-          menu: {
-            type: 'tab',
-            activeKey: tab,
-            items: Object.entries(TABS_MAP).map(([tab, currentTab]) => {
-              return {
-                key: tab,
-                label: <span>{currentTab.name}</span>,
-              };
-            }),
-            onChange: onChangeTabKey,
-          },
-          actions,
-        }}
       />
-      <Divider type="horizontal" />
-      {renderFooter()}
-    </div>
+    );
+  };
+
+  return (
+    <Tabs
+      activeKey={tab}
+      onChange={onChangeTabKey}
+      tabBarExtraContent={
+        <Space>
+          <Button key="refresh" type="default" size="small" onClick={onRefresh}>
+            <ReloadOutlined />
+            刷新
+          </Button>
+
+          {access.canPostTopic ? (
+            <Button key="create" type="primary" size="small" onClick={onCreate}>
+              <EditOutlined />
+              新建
+            </Button>
+          ) : null}
+        </Space>
+      }
+    >
+      {Object.entries(TABS_MAP).map(([tab, currentTab]) => {
+        return (
+          <TabPane tab={currentTab.name} key={tab}>
+            {renderList()}
+          </TabPane>
+        );
+      })}
+    </Tabs>
   );
 };
 
