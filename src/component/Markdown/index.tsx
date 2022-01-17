@@ -6,7 +6,7 @@ import MdEditor from 'react-markdown-editor-lite';
 import * as styles from './index.less';
 
 const mdParser = new MarkdownIt('commonmark', {
-  html: true,
+  html: false,
 });
 
 const getAttributes = (content: string = 'image') => {
