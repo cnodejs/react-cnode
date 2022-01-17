@@ -5,7 +5,48 @@ import MdEditor from 'react-markdown-editor-lite';
 
 import * as styles from './index.less';
 
-const mdParser = new MarkdownIt();
+const mdParser = new MarkdownIt('commonmark', {
+  html: true,
+});
+
+const getAttributes = (content: string = 'image') => {
+  const attrs = content.split(' ');
+  const alt = attrs.shift();
+
+  const attributes = attrs.reduce((prev: string[], curr) => {
+    const [key, value] = curr.split('=');
+
+    if (!key) {
+      return prev;
+    }
+
+    if (!value) {
+      return prev.concat(`${key}`);
+    }
+
+    return prev.concat(`${key}="${value}"`);
+  }, []);
+
+  return {
+    alt,
+    attributes,
+  };
+};
+
+mdParser.renderer.rules.image = function (tokens, index) {
+  const token = tokens[index];
+  const srcIndex = token.attrIndex('src');
+
+  if (!token.attrs) {
+    return '';
+  }
+
+  const src = token.attrs[srcIndex][1];
+  const content = mdParser.utils.escapeHtml(token.content);
+  const { alt, attributes } = getAttributes(content);
+
+  return `<img src="${src}" alt="${alt}" ${attributes.join(' ')}/>`;
+};
 
 const Markdown: React.FC<Props> = (props) => {
   const { value = '', type, onChange, customClassName = '' } = props;
