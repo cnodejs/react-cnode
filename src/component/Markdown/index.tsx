@@ -2,18 +2,28 @@ import React from 'react';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-import rehypeSanitize from 'rehype-sanitize';
+import rehypeRaw from 'rehype-raw';
+import rehypeAttr from 'rehype-attr';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 
 import MdEditor from 'react-markdown-editor-lite';
-import 'react-markdown-editor-lite/esm/index.less';
+// import 'react-markdown-editor-lite/esm/index.less';
 
 import * as styles from './index.less';
 
 const processor = unified()
   .use(remarkParse)
-  .use(remarkRehype)
-  .use(rehypeSanitize)
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRaw)
+  .use(rehypeAttr, { properties: 'attr' })
+  .use(rehypeSanitize, {
+    ...defaultSchema,
+    attributes: {
+      ...defaultSchema.attributes,
+      img: [...(defaultSchema?.attributes?.img || []), ['style']],
+    },
+  })
   .use(rehypeStringify);
 
 const Markdown: React.FC<Props> = (props) => {
