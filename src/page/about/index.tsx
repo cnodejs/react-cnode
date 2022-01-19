@@ -29,8 +29,8 @@ CNode 的 SLA 保证是，一个9，即 90.000000%。
 ## 贡献者
 
 > egg-cnode
-    
-[![contributors](https://ergatejs.implements.io/badges/contributors/cnodejs/egg-cnode.svg?owner=cnodejs&repo=egg-cnode&type=svg&width=1232&size=64&padding=8)](https://github.com/cnodejs/egg-cnode/graphs/contributors)
+
+[![contributors](https://ergatejs.implements.io/badges/contributors/cnodejs/egg-cnode.svg?owner=cnodejs&repo=egg-cnode&type=svg&width=1232&size=64&padding=8)<!--rehype:style=width:50%;-->](https://github.com/cnodejs/egg-cnode/graphs/contributors)
 `;
 
 const AboutPage: React.FC<Props> = (props) => {
