@@ -96,7 +96,6 @@ export default defineConfig({
           '//unpkg.com/antd@4.x/dist/antd.js',
           '//unpkg.com/@ant-design/icons@4.x/dist/index.umd.js',
           '//unpkg.com/dayjs@1.x/dayjs.min.js',
-          '//unpkg.com/markdown-it@8.x/dist/markdown-it.js',
           '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.js',
         ]
       : [
@@ -105,7 +104,6 @@ export default defineConfig({
           '//unpkg.com/antd@4.x/dist/antd.min.js',
           '//unpkg.com/@ant-design/icons@4.x/dist/index.umd.min.js',
           '//unpkg.com/dayjs@1.x/dayjs.min.js',
-          '//unpkg.com/markdown-it@8.x/dist/markdown-it.min.js',
           '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.js',
         ],
 
