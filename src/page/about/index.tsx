@@ -10,20 +10,20 @@ CNode 社区由一批热爱 Node.js 技术的工程师发起，目前已经吸�
 
 CNode 的 SLA 保证是，一个9，即 90.000000%。
 
-社区目前由 [@alsotang](http://cnodejs.org/user/alsotang) 在维护，有问题请联系：[https://github.com/alsotang](https://github.com/alsotang)
+社区目前由 [@alsotang](http://cnodejs.org/user/alsotang) 在维护，有问题请联系：https://github.com/alsotang
 
-请关注我们的官方微博：[http://weibo.com/cnodejs](http://weibo.com/cnodejs)
+请关注我们的官方微博：http://weibo.com/cnodejs
 
 
 ## 客户端
 
 客户端由 [@soliury](https://cnodejs.org/user/soliury) 开发维护。
 
-源码地址： [https://github.com/soliury/noder-react-native](https://github.com/soliury/noder-react-native) 。
+源码地址： https://github.com/soliury/noder-react-native 。
 
 立即体验 CNode 客户端，直接扫描页面右侧二维码。
 
-另，安卓用户同时可选择：[https://github.com/TakWolf/CNode-Material-Design](https://github.com/TakWolf/CNode-Material-Design) ，这是 Java 原生开发的安卓客户端。
+另，安卓用户同时可选择：https://github.com/TakWolf/CNode-Material-Design ，这是 Java 原生开发的安卓客户端。
 
 
 ## 贡献者
