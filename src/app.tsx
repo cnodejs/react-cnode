@@ -38,7 +38,7 @@ export const qiankun = async () => {
     return {
       apps: [
         {
-          name: 'api',
+          name: 'swagger',
           entry: 'https://s.implements.io/microapp/pg-swagger/',
         },
       ],
