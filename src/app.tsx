@@ -36,7 +36,12 @@ export const qiankun = async () => {
     //   .forEach((app) => qiankunApps.push(app));
 
     return {
-      apps: [],
+      apps: [
+        {
+          name: 'api',
+          entry: 'https://s.implements.io/microapp/pg-swagger/',
+        },
+      ],
     };
   } catch (error) {
     return {};

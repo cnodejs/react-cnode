@@ -1,7 +1,8 @@
 import React from 'react';
+import { MicroApp } from 'umi';
 
 const ApiPage: React.FC<Props> = (props) => {
-  return <div>TODO.</div>;
+  return <MicroApp name="api" />;
 };
 
 export default ApiPage;

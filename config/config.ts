@@ -49,6 +49,8 @@ export default defineConfig({
   hash: true,
   singular: true,
 
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/',
+
   fastRefresh: {},
   mfsu: {},
   esbuild: {},
