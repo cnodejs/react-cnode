@@ -82,31 +82,31 @@ export default defineConfig({
   styles:
     process.env.NODE_ENV === 'development'
       ? [
-          '//unpkg.com/antd@4.x/dist/antd.css',
-          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.css',
+          '//cdn.jsdelivr.net/npm/antd@4.x/dist/antd.css',
+          '//cdn.jsdelivr.net/npm/react-markdown-editor-lite@1.x/lib/index.css',
         ]
       : [
-          '//unpkg.com/antd@4.x/dist/antd.min.css',
-          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.css',
+          '//cdn.jsdelivr.net/npm/antd@4.x/dist/antd.min.css',
+          '//cdn.jsdelivr.net/npm/react-markdown-editor-lite@1.x/lib/index.css',
         ],
 
   scripts:
     process.env.NODE_ENV === 'development'
       ? [
-          '//unpkg.com/react@17.x/umd/react.development.js',
-          '//unpkg.com/react-dom@17.x/umd/react-dom.development.js',
-          '//unpkg.com/antd@4.x/dist/antd.js',
-          '//unpkg.com/@ant-design/icons@4.x/dist/index.umd.js',
-          '//unpkg.com/dayjs@1.x/dayjs.min.js',
-          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.js',
+          '//cdn.jsdelivr.net/npm/react@17.x/umd/react.development.js',
+          '//cdn.jsdelivr.net/npm/react-dom@17.x/umd/react-dom.development.js',
+          '//cdn.jsdelivr.net/npm/antd@4.x/dist/antd.js',
+          '//cdn.jsdelivr.net/npm/@ant-design/icons@4.x/dist/index.umd.js',
+          '//cdn.jsdelivr.net/npm/dayjs@1.x/dayjs.min.js',
+          '//cdn.jsdelivr.net/npm/react-markdown-editor-lite@1.x/lib/index.js',
         ]
       : [
-          '//unpkg.com/react@17.x/umd/react.production.min.js',
-          '//unpkg.com/react-dom@17.x/umd/react-dom.production.min.js',
-          '//unpkg.com/antd@4.x/dist/antd.min.js',
-          '//unpkg.com/@ant-design/icons@4.x/dist/index.umd.min.js',
-          '//unpkg.com/dayjs@1.x/dayjs.min.js',
-          '//unpkg.com/react-markdown-editor-lite@1.x/lib/index.js',
+          '//cdn.jsdelivr.net/npm/react@17.x/umd/react.production.min.js',
+          '//cdn.jsdelivr.net/npm/react-dom@17.x/umd/react-dom.production.min.js',
+          '//cdn.jsdelivr.net/npm/antd@4.x/dist/antd.min.js',
+          '//cdn.jsdelivr.net/npm/@ant-design/icons@4.x/dist/index.umd.min.js',
+          '//cdn.jsdelivr.net/npm/dayjs@1.x/dayjs.min.js',
+          '//cdn.jsdelivr.net/npm/react-markdown-editor-lite@1.x/lib/index.js',
         ],
 
   antd: {},
