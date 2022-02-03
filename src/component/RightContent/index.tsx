@@ -1,6 +1,6 @@
+import { Avatar, Badge, Dropdown, Menu, Space } from 'antd';
 import React from 'react';
-import { history, useModel, Link } from 'umi';
-import { Avatar, Space, Button, Badge, Menu, Dropdown } from 'antd';
+import { Link, useModel } from 'umi';
 
 const RightContent: React.FC<Props> = (props) => {
   const { user, logout } = useModel('user');
@@ -9,14 +9,7 @@ const RightContent: React.FC<Props> = (props) => {
   if (!user) {
     return (
       <div className="cnode-header-right">
-        <Button
-          type="link"
-          onClick={() => {
-            history.push('/auth');
-          }}
-        >
-          登录
-        </Button>
+        <Link to="/login">登录</Link>
       </div>
     );
   }

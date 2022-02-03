@@ -37,3 +37,10 @@ export const loadUser = async (params: {
 
   return res;
 };
+
+export const login = async (data: { loginname: string; pass: string }) => {
+  return await request(`${BASE_URL}/api/auth/signin`, {
+    method: 'POST',
+    data,
+  });
+};

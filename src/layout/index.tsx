@@ -3,6 +3,8 @@ import ProCard from '@ant-design/pro-card';
 
 import { PageContainer } from '@ant-design/pro-layout';
 import { BackTop, Space } from 'antd';
+import { Route } from 'antd/lib/breadcrumb/Breadcrumb';
+import { PageHeaderProps } from 'antd/lib/page-header';
 import { IRoute, Link } from 'umi';
 
 import AppQrcode from './component/AppQrcode';
@@ -33,25 +35,30 @@ const BREADCRUMB_NAME_MAP = {
   user: '用户',
   topic: '话题',
   edit: '编辑',
+  login: '登录',
 };
 
 const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const { route, location } = props;
   const currentRoute = getCurrentRoute(route, location.pathname);
 
-  let headerConfig: any = {
+  let headerConfig: Partial<PageHeaderProps> = {
     title: currentRoute?.title || currentRoute?.name,
     subTitle: currentRoute?.description,
   };
 
-  const detailPaths = location.pathname.match(/\/(topic|user)\/(\w+)(\/\w+)?/);
+  const detailPaths = location.pathname.match(
+    /\/(login|topic|user)(\/\w+)?(\/\w+)?/,
+  );
+
+  let routes: Route[] = [];
 
   if (detailPaths) {
     const [pathname, category, id, status] = detailPaths;
 
     const isEdit = status === '/edit';
 
-    const routes = [
+    routes = [
       {
         path: '/',
         breadcrumbName: '主页',
@@ -62,7 +69,7 @@ const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
       },
       {
         path: `/${category}/${id}`,
-        breadcrumbName: id,
+        breadcrumbName: id && id.replace('/', ''),
       },
     ];
 
